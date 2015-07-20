@@ -1,17 +1,26 @@
 package com.dyamicmedicine.mdme;
 
+import android.app.Activity;
+import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //colors text field line - no way to do via xml in api < 21
+        EditText emailEditText = (EditText)findViewById(R.id.userEmail);
+        EditText passwordEditText = (EditText)findViewById(R.id.userPassword);
+        emailEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_lightblue), PorterDuff.Mode.SRC_ATOP);
+        passwordEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_lightblue), PorterDuff.Mode.SRC_ATOP);
     }
 
     @Override
