@@ -1,47 +1,151 @@
 package com.dyamicmedicine.mdme;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.dyamicmedicine.mdme.asyncJson.AsyncJsonTask;
+
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 
 public class LoginActivity extends Activity {
+
+    private final static String TAG = "LoginActivity";
+    private final static String LOGIN_API_ENDPOINT = WebserverUrl.ROOT_URL + "/sessions.json";
+    private SharedPreferences mPreferences;
+    private String mUserEmail;
+    private String mUserPassword;
+    private EditText mEmailEditText;
+    private EditText mPasswordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setTitle("Login");
+        mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 
         //colors text field line - no way to do via xml in api < 21
-        EditText emailEditText = (EditText)findViewById(R.id.userEmail);
-        EditText passwordEditText = (EditText)findViewById(R.id.userPassword);
-        emailEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_lightblue), PorterDuff.Mode.SRC_ATOP);
-        passwordEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_lightblue), PorterDuff.Mode.SRC_ATOP);
+        mEmailEditText = (EditText)findViewById(R.id.userEmail);
+        mPasswordEditText = (EditText)findViewById(R.id.userPassword);
+        mEmailEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_lightblue), PorterDuff.Mode.SRC_ATOP);
+        mPasswordEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_lightblue), PorterDuff.Mode.SRC_ATOP);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
+    public void login(View button){
+        mUserEmail = mEmailEditText.getText().toString();
+        mUserPassword = mPasswordEditText.getText().toString();
+        if (mUserEmail.length() == 0 || mUserPassword.length() == 0) {
+            Toast.makeText(this, "Fields cannot be blank", Toast.LENGTH_LONG).show();
+            return;
+        }
+        else {
+            LoginTask loginTask = new LoginTask(LoginActivity.this);
+            loginTask.setMessageLoading("Logging in...");
+            loginTask.execute(LOGIN_API_ENDPOINT);
+        }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    private class LoginTask extends AsyncJsonTask {
+        public LoginTask(Context context) {
+            super(context);
         }
 
-        return super.onOptionsItemSelected(item);
+        @Override
+        protected JSONObject doInBackground(String... urls) {
+            JSONObject json = null;
+            HttpURLConnection conn = null;
+            try {
+                DataOutputStream printout;
+                BufferedReader input;
+                URL url = new URL(urls[0]);
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setUseCaches(false);
+                conn.setChunkedStreamingMode(0);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept", "application/x-www-form-urlencoded");
+                conn.setRequestProperty("charset", "utf-8");
+                conn.connect();
+                JSONObject params = new JSONObject();
+                JSONObject sessions = new JSONObject();
+                sessions.put("email", mUserEmail);
+                sessions.put("password", mUserPassword);
+                params.put("sessions", sessions);
+                printout = new DataOutputStream(conn.getOutputStream());
+                printout.writeBytes(URLEncoder.encode(params.toString(), "UTF-8"));
+                printout.flush();
+                printout.close();
+                input = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line = "";
+                while ((line = input.readLine()) != null) {
+                    sb.append(line + '\n');
+                }
+                String jsonStr = sb.toString();
+                json = new JSONObject(jsonStr);
+            }
+            catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
+            finally {
+                if (conn != null) {
+                    conn.disconnect();
+                }
+            }
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            Toast.makeText(this.context, "Request complete", Toast.LENGTH_LONG).show();
+            Log.e(TAG, json.toString());
+        }
+
     }
+
+
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_login, menu);
+//        return true;
+//    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 }
