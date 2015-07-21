@@ -17,15 +17,22 @@ import com.dyamicmedicine.mdme.asyncJson.AsyncJsonTask;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.MalformedInputException;
 
 
 public class LoginActivity extends Activity {
@@ -76,28 +83,26 @@ public class LoginActivity extends Activity {
             JSONObject json = null;
             HttpURLConnection conn = null;
             try {
-                DataOutputStream printout;
+                BufferedOutputStream oStream;
                 BufferedReader input;
                 URL url = new URL(urls[0]);
+                //configure request type / headers
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
                 conn.setUseCaches(false);
-                conn.setChunkedStreamingMode(0);
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestProperty("Accept", "application/x-www-form-urlencoded");
-                conn.setRequestProperty("charset", "utf-8");
+                conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                 conn.connect();
+                //set params
                 JSONObject params = new JSONObject();
-                JSONObject sessions = new JSONObject();
-                sessions.put("email", mUserEmail);
-                sessions.put("password", mUserPassword);
-                params.put("sessions", sessions);
-                printout = new DataOutputStream(conn.getOutputStream());
-                printout.writeBytes(URLEncoder.encode(params.toString(), "UTF-8"));
-                printout.flush();
-                printout.close();
+                params.put("email", mUserEmail);
+                params.put("password", mUserPassword);
+                oStream = new BufferedOutputStream(conn.getOutputStream());
+                oStream.write(params.toString().getBytes("UTF-8"));
+                oStream.flush();
+                oStream.close();
+
                 input = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 StringBuilder sb = new StringBuilder();
                 String line = "";
@@ -107,7 +112,21 @@ public class LoginActivity extends Activity {
                 String jsonStr = sb.toString();
                 json = new JSONObject(jsonStr);
             }
-            catch (Exception e) {
+            //this gets called when login fails
+            //TODO I DONT THINK I CAN TOST IN ASYNC
+            catch (FileNotFoundException e) {
+                Log.e(TAG, e.getMessage());
+                Toast.makeText(this.context, "Invalid credentials.", Toast.LENGTH_SHORT).show();
+            }
+            catch (MalformedInputException e) {
+                Log.e(TAG, e.getMessage());
+            }
+            catch (IOException e) {
+                Toast.makeText(this.context, "Connection error.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, e.getMessage());
+            }
+            catch (JSONException e) {
+                Toast.makeText(this.context, "Invalid characters entered.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, e.getMessage());
             }
             finally {

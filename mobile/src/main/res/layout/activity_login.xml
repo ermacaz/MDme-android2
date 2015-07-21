@@ -20,6 +20,7 @@
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:padding="16dp"
+        android:text="user@example.com"
         android:textColor="@color/MDme_lightblue"
         android:textColorHint="@color/MDme_lightblue">
         <requestFocus/>
@@ -30,6 +31,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/password"
+        android:text="Qwerty123!"
         android:inputType="textPassword"
         android:padding="16dp"
         android:textColor="@color/MDme_lightblue"
