@@ -2,6 +2,7 @@ package com.dyamicmedicine.mdme;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
@@ -55,8 +56,8 @@ public class LoginActivity extends Activity {
         //colors text field line - no way to do via xml in api < 21
         mEmailEditText = (EditText)findViewById(R.id.userEmail);
         mPasswordEditText = (EditText)findViewById(R.id.userPassword);
-        mEmailEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_lightblue), PorterDuff.Mode.SRC_ATOP);
-        mPasswordEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_lightblue), PorterDuff.Mode.SRC_ATOP);
+//        mEmailEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_primary), PorterDuff.Mode.SRC_ATOP);
+//        mPasswordEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_primary), PorterDuff.Mode.SRC_ATOP);
     }
 
     public void login(View button){
@@ -80,9 +81,10 @@ public class LoginActivity extends Activity {
 
         @Override
         protected JSONObject doInBackground(String... urls) {
-            JSONObject json = null;
+            JSONObject json = new JSONObject();
             HttpURLConnection conn = null;
             try {
+                //setup failure state
                 BufferedOutputStream oStream;
                 BufferedReader input;
                 URL url = new URL(urls[0]);
@@ -103,6 +105,10 @@ public class LoginActivity extends Activity {
                 oStream.flush();
                 oStream.close();
 
+                int responseCode = conn.getResponseCode();
+                if (responseCode >= 400 && responseCode <= 499) {
+                    throw new Exception("Invalid credentials: " + responseCode);
+                }
                 input = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 StringBuilder sb = new StringBuilder();
                 String line = "";
@@ -111,23 +117,16 @@ public class LoginActivity extends Activity {
                 }
                 String jsonStr = sb.toString();
                 json = new JSONObject(jsonStr);
+                json.put("success", true);
             }
-            //this gets called when login fails
-            //TODO I DONT THINK I CAN TOST IN ASYNC
-            catch (FileNotFoundException e) {
-                Log.e(TAG, e.getMessage());
-                Toast.makeText(this.context, "Invalid credentials.", Toast.LENGTH_SHORT).show();
-            }
-            catch (MalformedInputException e) {
-                Log.e(TAG, e.getMessage());
-            }
-            catch (IOException e) {
-                Toast.makeText(this.context, "Connection error.", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, e.getMessage());
-            }
-            catch (JSONException e) {
-                Toast.makeText(this.context, "Invalid characters entered.", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, e.getMessage());
+            catch (Exception e) {
+                try {
+                    json.put("success", false);
+                    json.put("message", e.getMessage());
+                }
+                catch (JSONException ex) {
+                    Log.e(TAG, ex.getMessage());
+                }
             }
             finally {
                 if (conn != null) {
@@ -138,8 +137,29 @@ public class LoginActivity extends Activity {
         }
         @Override
         protected void onPostExecute(JSONObject json) {
-            Toast.makeText(this.context, "Request complete", Toast.LENGTH_LONG).show();
-            Log.e(TAG, json.toString());
+            try {
+                if (json.getBoolean("success")) {
+                    //login successfull
+                    SharedPreferences.Editor editor = mPreferences.edit();
+                    editor.putString("ApiToken", json.getJSONObject("api_token").getString("token"));
+                    editor.putString("patient_id", json.getString("user_id"));
+                    editor.commit();
+
+                    //launch activity here
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    Toast.makeText(this.context, json.getString("message"), Toast.LENGTH_LONG).show();
+                }
+            }
+            catch (Exception e) {
+               Log.e(TAG, e.getMessage());
+            }
+            finally {
+                super.onPostExecute(json);
+            }
         }
 
     }

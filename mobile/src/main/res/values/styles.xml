@@ -1,8 +1,30 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+
+<!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="android:actionBarStyle" tools:ingnore="NewApi">@style/MDmeBlueActionBar</item>
+        <item name="actionBarStyle">@style/MDmeBlueActionBar</item>
+        <item name="colorPrimary">@color/MDme_primary</item>
+        <item name="android:colorPrimary" tools:ignore="NewApi">@color/MDme_primary</item>
+        <item name="colorPrimaryDark">@color/MDme_primaryDark</item>
+        <item name="android:colorPrimaryDark" tools:ignore="NewApi">@color/MDme_primaryDark</item>
+        <item name="colorAccent">@color/MDme_primary</item>
+        <item name="android:colorAccent" tools:ignore="NewApi">@color/MDme_primary</item>
+
+
+    </style>
+
+    <style name="MDmeBlueActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="android:actionBarStyle" tools:ingnore="NewApi">@style/MDmeBlueActionBar</item>
+        <item name="actionBarStyle">@style/MDmeBlueActionBar</item>
+        <item name="colorPrimary">@color/MDme_primary</item>
+        <item name="android:colorPrimary" tools:ignore="NewApi">@color/MDme_primary</item>
+        <item name="colorAccent">@color/MDme_accent</item>
+        <item name="android:colorAccent" tools:ignore="NewApi">@color/MDme_accent</item>
     </style>
 
 </resources>

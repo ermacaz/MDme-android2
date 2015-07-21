@@ -1,3 +1,7 @@
 <resources>
-    <color name="MDme_lightblue">#3EC3D3</color>
+    <color name="MDme_primary">#00BCD4</color>
+    <color name="MDme_primaryDark">#0097A7</color>
+    <color name="MDme_accent">#00E5FF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="MDme_text_primary">#FFFFFF</color>
 </resources>
