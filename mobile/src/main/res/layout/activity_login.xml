@@ -21,8 +21,8 @@
         android:inputType="textEmailAddress"
         android:padding="16dp"
         android:text="user@example.com"
-        android:textColor="@color/MDme_lightblue"
-        android:textColorHint="@color/MDme_lightblue">
+        android:textColor="@color/MDme_primary"
+        android:textColorHint="@color/MDme_primary">
         <requestFocus/>
     </EditText>
 
@@ -34,8 +34,8 @@
         android:text="Qwerty123!"
         android:inputType="textPassword"
         android:padding="16dp"
-        android:textColor="@color/MDme_lightblue"
-        android:textColorHint="@color/MDme_lightblue"
+        android:textColor="@color/MDme_primary"
+        android:textColorHint="@color/MDme_primary"
         android:linksClickable="false"
         android:selectAllOnFocus="false" />
 

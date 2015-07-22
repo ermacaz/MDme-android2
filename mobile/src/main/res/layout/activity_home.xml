@@ -1,12 +1,90 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context="com.dyamicmedicine.mdme.HomeActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    //Gray header
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/MDme_lightgray"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:padding="28dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/missing"
+            android:layout_gravity="center_vertical"
+            android:layout_weight=".3"
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="16dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="start"
+            android:layout_weight=".6">
+        <TextView
+            android:layout_marginBottom="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/MDme_primary"
+            android:textSize="8pt"
+            android:text="John David Smith"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/MDme_primary"
+            android:textSize="6pt"
+            android:text="male"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/MDme_primary"
+            android:textSize="6pt"
+            android:text="DOB: 3/17/1969"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/MDme_primary"
+            android:textSize="6pt"
+            android:text="Massachusetts General Hospital"/>
+        </LinearLayout>
+    </LinearLayout>
+    //menu items
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/MDme_nav_first"
+        android:text="@string/home_nav_first"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/MDme_nav_second"
+        android:text="@string/home_nav_second"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/MDme_nav_third"
+        android:text="@string/home_nav_third"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/MDme_nav_first"
+        android:text="@string/home_nav_first"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/MDme_nav_second"
+        android:text="@string/home_nav_second"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/MDme_nav_third"
+        android:text="@string/home_nav_third"/>
 
-</RelativeLayout>
+</LinearLayout>

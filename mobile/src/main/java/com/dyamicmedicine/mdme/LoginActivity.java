@@ -56,8 +56,8 @@ public class LoginActivity extends Activity {
         //colors text field line - no way to do via xml in api < 21
         mEmailEditText = (EditText)findViewById(R.id.userEmail);
         mPasswordEditText = (EditText)findViewById(R.id.userPassword);
-//        mEmailEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_primary), PorterDuff.Mode.SRC_ATOP);
-//        mPasswordEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_primary), PorterDuff.Mode.SRC_ATOP);
+        mEmailEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_primary), PorterDuff.Mode.SRC_ATOP);
+        mPasswordEditText.getBackground().setColorFilter(getResources().getColor(R.color.MDme_primary), PorterDuff.Mode.SRC_ATOP);
     }
 
     public void login(View button){
