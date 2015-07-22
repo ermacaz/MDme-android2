@@ -78,6 +78,11 @@ public class AsyncJsonTask extends AsyncTask<String, Void, JSONObject> {
         return this.getJsonFromUrl(params[0]);
     }
 
+    protected JSONObject doInBackground(JSONObject json, String... params) {
+        return this.getJsonFromUrl(params[0]);
+    }
+
+
     @Override
     protected void onPreExecute() {
         progressDialog = ProgressDialog.show(
