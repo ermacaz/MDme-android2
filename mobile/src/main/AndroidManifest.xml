@@ -15,10 +15,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <permission
-        android:name="com.MDmde.mobile.permission.C2D_MESSAGE"
+        android:name="com.dyamicmedicine.mdme.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.MDmde.mobile.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.dyamicmedicine.mdme.permission.C2D_MESSAGE" />
 
     <uses-feature android:name="android.hardware.camera" />
     //needed to render google maps images
@@ -30,7 +30,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:supportsRtl="true">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

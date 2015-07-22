@@ -5,35 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dyamicmedicine.mdme.asyncJson.AsyncJsonTask;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.MalformedInputException;
 
 
 public class LoginActivity extends Activity {
@@ -65,7 +52,6 @@ public class LoginActivity extends Activity {
         mUserPassword = mPasswordEditText.getText().toString();
         if (mUserEmail.length() == 0 || mUserPassword.length() == 0) {
             Toast.makeText(this, "Fields cannot be blank", Toast.LENGTH_LONG).show();
-            return;
         }
         else {
             LoginTask loginTask = new LoginTask(LoginActivity.this);
@@ -113,7 +99,7 @@ public class LoginActivity extends Activity {
                 StringBuilder sb = new StringBuilder();
                 String line = "";
                 while ((line = input.readLine()) != null) {
-                    sb.append(line + '\n');
+                    sb.append(line).append('\n');
                 }
                 String jsonStr = sb.toString();
                 json = new JSONObject(jsonStr);
@@ -143,7 +129,7 @@ public class LoginActivity extends Activity {
                     SharedPreferences.Editor editor = mPreferences.edit();
                     editor.putString("ApiToken", json.getJSONObject("api_token").getString("token"));
                     editor.putString("patient_id", json.getString("user_id"));
-                    editor.commit();
+                    editor.apply();
 
                     //launch activity here
                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);

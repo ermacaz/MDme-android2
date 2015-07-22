@@ -10,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
 /**
@@ -103,10 +102,7 @@ public class AsyncJsonTask extends AsyncTask<String, Void, JSONObject> {
     protected void validateJson(JSONObject json) throws JSONException, IOException {
         if (json != null) {
             //valid json responses will have {success: true}
-            if (json.getBoolean("success")) {
-                return;
-            }
-            else {
+            if (!json.getBoolean("success")) {
                 throw new IOException(json.getString("info"));
             }
         }
