@@ -1,17 +1,41 @@
 package com.dyamicmedicine.mdme;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity {
 
-    @Override
+    private final static String  TAG = "HomeActivity";
+    private SharedPreferences mPreferences;
+    private ImageView mProfileImage;
+    private TextView mProfileName;
+    private TextView mProfileSex;
+    private TextView mProfileDob;
+    private TextView mProfileLocation;
+    private Button mButtonFirst;
+    private Button mButtonSecond;
+    private Button mButtonThird;
+    private Button mButtonFourth;
+    private Button mButtonFifth;
+    private Button mButtonSixth;
+
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setTitle("John David Smith");
+        attachViewWidgets();
+    }
+
+    private void attachViewWidgets() {
+
     }
 
     @Override
