@@ -24,6 +24,15 @@ import com.dyamicmedicine.mdme.asyncJson.DownloadImageTask;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+
+/**
+ * MDme Android application
+ * Author:: Matt Hamada (maito:ermacaz@gmail.com)
+ * Created on:: 7/21/15
+ * Copyright:: Copyright (c) 2015 Dynamic Medicine, LLC
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential.
+ */
 public class HomeActivity extends AppCompatActivity {
 
     private final static String  TAG = "HomeActivity";

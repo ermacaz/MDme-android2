@@ -13,4 +13,10 @@
     <string name="home_nav_sixth">My Appointment Check-In</string>
     <string name="desc_avatar">Profile image</string>
     <string name="minutes_until_appointment">minutes until appointment</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home_activity2">HomeActivity2</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
