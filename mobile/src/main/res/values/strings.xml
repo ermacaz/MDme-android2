@@ -12,4 +12,5 @@
     <string name="home_nav_fifth">My Hospitals &amp; Clinics</string>
     <string name="home_nav_sixth">My Appointment Check-In</string>
     <string name="desc_avatar">Profile image</string>
+    <string name="minutes_until_appointment">minutes until appointment</string>
 </resources>

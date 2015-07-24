@@ -1,6 +1,7 @@
 package com.dyamicmedicine.mdme.asyncJson;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -45,7 +46,15 @@ public class AsyncPostJson extends AsyncJsonTask {
             conn.setDoOutput(true);
             conn.setUseCaches(false);
             conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            //set auth header if logged in
+            SharedPreferences preferences = context.getSharedPreferences("CurrentUser", context.MODE_PRIVATE);
+            String auth = preferences.getString("ApiToken", "UNAUTHED");
+            if ((auth != null) && !(auth.equals("UNAUTHED"))) {
+                conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                conn.setRequestProperty("Authorization", auth);
+            }
             conn.connect();
+
             //set params
             oStream = new BufferedOutputStream(conn.getOutputStream());
             oStream.write(this.params.toString().getBytes("UTF-8"));

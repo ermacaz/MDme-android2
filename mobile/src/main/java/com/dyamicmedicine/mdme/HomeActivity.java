@@ -2,6 +2,8 @@ package com.dyamicmedicine.mdme;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.Image;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -20,17 +22,24 @@ import com.dyamicmedicine.mdme.asyncJson.AsyncGetJson;
 import com.dyamicmedicine.mdme.asyncJson.DownloadImageTask;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class HomeActivity extends AppCompatActivity {
 
     private final static String  TAG = "HomeActivity";
     private String profileApiEndpoint;
+    private String upcomingApptApiEndpoint;
+    private int    mAppointmentPercent;
+    private int    mMinutesLeft;
+    private boolean isAppointment;
     private SharedPreferences mPreferences;
     private ImageView mProfileImage;
-    private TextView mProfileName;
-    private TextView mProfileSex;
-    private TextView mProfileDob;
-    private TextView mProfileLocation;
+    private TextView  mProfileName;
+    private TextView  mProfileSex;
+    private TextView  mProfileDob;
+    private TextView  mProfileLocation;
+    private TextView  mProfileAppointmentTime;
+    private TextView  mProfileAppointmentTimeleft;
     private Button mButtonFirst;
     private Button mButtonSecond;
     private Button mButtonThird;
@@ -38,8 +47,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button mButtonFifth;
     private Button mButtonSixth;
     private ProgressBar mProgressBar;
-    private Handler progressBarHandler = new Handler();
-    int timeleft = 100;
+    private Handler mBarHandler = new Handler();
 
 
 
@@ -49,29 +57,58 @@ public class HomeActivity extends AppCompatActivity {
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
         String userId = mPreferences.getString("patient_id", "-1");
         profileApiEndpoint = WebserverUrl.ROOT_URL + "/patients/" + userId + ".json";
+        upcomingApptApiEndpoint = WebserverUrl.ROOT_URL + "/patients/get-upcoming-appointment.json";
         setTitle("John David Smith");
         attachViewWidgets();
         setButtonListeners();
         getProfileInfo();
-        setupProgressBar();
+        isAppointment = false;
+        getUpcomingAppt();
 
     }
 
+    private void getUpcomingAppt() {
+        GetUpcomingApptTask getUpcomingApptTask = new GetUpcomingApptTask(HomeActivity.this, TAG);
+        getUpcomingApptTask.setMessageLoading("Loading profile...");
+        getUpcomingApptTask.execute(upcomingApptApiEndpoint);
+    }
+
     private void setupProgressBar() {
+
         new Thread(new Runnable() {
           public void run() {
-              while (timeleft > 0) {
+              while (mAppointmentPercent <= 100) {
+                  //update progress bar
+                  mBarHandler.post(new Runnable() {
+                      public void run() {
+                          mProgressBar.setProgress(mAppointmentPercent);
+                          mProfileAppointmentTimeleft.setText(Integer.toString(mMinutesLeft) + " " + getResources().getString(R.string.minutes_until_appointment));
+                          if (mAppointmentPercent < 50) {
+                              mProgressBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                          }
+                          else if (mAppointmentPercent >= 50 && mAppointmentPercent < 80) {
+                              mProgressBar.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.MULTIPLY);
+
+                          }
+                          else if (mAppointmentPercent >= 20) {
+                              mProgressBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+                          }
+                      }
+                  });
+                  //increment percent
+                  //TODO sync this with real time in future.
                   try {
                       Thread.sleep(60000);
+                      ++mAppointmentPercent;
+                      --mMinutesLeft;
                   }
                   catch (InterruptedException e) {
-                      e.printStackTrace();;
+                      Log.e(TAG, e.getMessage());
                   }
-                  //update progress bar
 
               }
           }
-        });
+        }).start();
 
     }
 
@@ -126,6 +163,8 @@ public class HomeActivity extends AppCompatActivity {
         mProfileDob = (TextView)findViewById(R.id.profile_birthday);
         mProfileName = (TextView)findViewById(R.id.profile_full_name);
         mProfileLocation = (TextView)findViewById(R.id.profile_location);
+        mProfileAppointmentTime  = (TextView)findViewById(R.id.profile_appointment_time);
+        mProfileAppointmentTimeleft  = (TextView)findViewById(R.id.profile_time_left);
         mButtonFirst = (Button)findViewById(R.id.profile_button_first);
         mButtonSecond = (Button)findViewById(R.id.profile_button_second);
         mButtonThird = (Button)findViewById(R.id.profile_button_third);
@@ -155,6 +194,35 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class GetUpcomingApptTask extends AsyncGetJson {
+        public GetUpcomingApptTask(Context context, String tag) { super(context, tag); }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                if (json.getBoolean("success")) {
+
+                  if (json.has("date")) { //json will only have success when no appt
+                      mProfileAppointmentTime.setText(json.getString("date") + " " + json.getString("time"));
+                      mMinutesLeft = json.getInt("minutesLeft");
+                      mProfileAppointmentTimeleft.setText(json.getString("minutesLeft") + " " + getResources().getString(R.string.minutes_until_appointment));
+                      mAppointmentPercent = json.getInt("percent");
+                      setupProgressBar();
+                  }
+                  else {
+                      mProgressBar.setVisibility(View.INVISIBLE);
+                  }
+                }
+            }
+            catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
+            finally {
+                super.onPostExecute(json);
+            }
+        }
     }
 
     private class GetProfileTask extends AsyncGetJson {

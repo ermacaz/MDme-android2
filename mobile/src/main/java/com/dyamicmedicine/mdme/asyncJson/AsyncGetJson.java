@@ -23,12 +23,9 @@ import java.net.URL;
  */
 public class AsyncGetJson extends AsyncJsonTask {
     String TAG;
-    JSONObject params;
     public AsyncGetJson(Context context, String tag) {
         super(context);
         this.TAG =tag;
-        this.params = params;
-
     }
 
     @Override
