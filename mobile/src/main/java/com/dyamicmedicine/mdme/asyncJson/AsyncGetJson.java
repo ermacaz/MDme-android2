@@ -1,6 +1,7 @@
 package com.dyamicmedicine.mdme.asyncJson;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -23,7 +24,7 @@ import java.net.URL;
 public class AsyncGetJson extends AsyncJsonTask {
     String TAG;
     JSONObject params;
-    public AsyncGetJson(Context context, String tag, JSONObject params) {
+    public AsyncGetJson(Context context, String tag) {
         super(context);
         this.TAG =tag;
         this.params = params;
@@ -36,6 +37,8 @@ public class AsyncGetJson extends AsyncJsonTask {
         HttpURLConnection conn = null;
         try {
             BufferedReader input;
+            SharedPreferences preferences = context.getSharedPreferences("CurrentUser", context.MODE_PRIVATE);
+            String auth = "Bearer " + preferences.getString("ApiToken", "");
             URL url = new URL(urls[0]);
             //configure request type / headers
             conn = (HttpURLConnection) url.openConnection();
@@ -43,6 +46,7 @@ public class AsyncGetJson extends AsyncJsonTask {
             conn.setDoInput(true);
             conn.setUseCaches(false);
             conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            conn.setRequestProperty("Authorization", auth);
             conn.connect();
 
             int responseCode = conn.getResponseCode();

@@ -97,4 +97,11 @@
         android:background="@color/MDme_nav_third"
         android:text="@string/home_nav_sixth"/>
 
+    <ProgressBar
+        android:id="@+id/profile_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:progress="0"
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
 </LinearLayout>
