@@ -1,128 +1,27 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center_horizontal"
-    android:orientation="vertical"
     tools:context="com.dyamicmedicine.mdme.HomeActivity">
 
-    <!--gray header-->
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/home_fragment"
+            android:name="com.dyamicmedicine.mdme.HomeFragment"/>
+
+
+    </LinearLayout>
+    <fragment
         android:layout_height="wrap_content"
-        android:background="@color/MDme_lightgray"
-        android:orientation="horizontal"
-        android:layout_gravity="center_vertical"
-        android:padding="28dp">
-        <ImageView
-            android:id="@+id/profile_avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/missing"
-            android:layout_gravity="center_vertical"
-            android:layout_weight=".3"
-            android:layout_marginEnd="32dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginLeft="16dp"
-            android:contentDescription="@string/desc_avatar"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="start"
-            android:layout_weight=".6">
-        <TextView
-            android:id="@+id/profile_full_name"
-            android:layout_marginBottom="12dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/MDme_primary"
-            android:textSize="8pt"
-            />
-        <TextView
-            android:id="@+id/profile_sex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/MDme_primary"
-            android:textSize="6pt"/>
-        <TextView
-            android:id="@+id/profile_birthday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/MDme_primary"
-            android:textSize="6pt"/>
-        <TextView
-            android:id="@+id/profile_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/MDme_primary"
-            android:textSize="6pt"/>
-        </LinearLayout>
-    </LinearLayout>
-    <!--menu items-->
-    <Button
-        android:id="@+id/profile_button_first"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/MDme_nav_first"
-        android:text="@string/home_nav_first"/>
-    <Button
-        android:id="@+id/profile_button_second"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/MDme_nav_second"
-        android:text="@string/home_nav_second"/>
-    <Button
-        android:id="@+id/profile_button_third"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/MDme_nav_third"
-        android:text="@string/home_nav_third"/>
-    <Button
-        android:id="@+id/profile_button_fourth"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/MDme_nav_first"
-        android:text="@string/home_nav_fourth"/>
-    <Button
-        android:id="@+id/profile_button_fifth"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/MDme_nav_second"
-        android:text="@string/home_nav_fifth"/>
-    <Button
-        android:id="@+id/profile_button_sixth"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/MDme_nav_third"
-        android:text="@string/home_nav_sixth"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/profile_appointment_time"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="6pt"
-            android:gravity="center_horizontal"/>
-        <ProgressBar
-            android:id="@+id/profile_progress_bar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_margin="8dp"
-            android:progress="0"
-            style="@android:style/Widget.ProgressBar.Horizontal"/>
-        <TextView
-            android:id="@+id/profile_time_left"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textSize="6pt"/>
-
-    </LinearLayout>
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        android:id="@+id/upcoming_appointment_fragment"
+        android:name="com.dyamicmedicine.mdme.UpcomingAppointmentFragment"/>
+</RelativeLayout>

@@ -50,10 +50,6 @@
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_welcome" >
-        </activity>
-        <activity
-            android:name=".HomeActivity2"
             android:label="@string/title_activity_home_activity2" >
         </activity>
     </application>
