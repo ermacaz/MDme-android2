@@ -150,7 +150,7 @@ public class HomeActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(PROPERTY_REG_ID, regId);
         editor.putInt(mAppVersion, appVersion);
-        editor.commit();
+        editor.apply();
     }
 
     private static int getAppVersion(Context context) {
