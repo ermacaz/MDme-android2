@@ -1,4 +1,4 @@
-package com.dyamicmedicine.mdme;
+package com.dynamicmedicine.mdme;
 
 /**
  * MDme Android application

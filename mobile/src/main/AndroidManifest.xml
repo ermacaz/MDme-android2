@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dyamicmedicine.mdme" >
+    package="com.dynamicmedicine.mdme" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -15,10 +15,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <permission
-        android:name="com.dyamicmedicine.mdme.permission.C2D_MESSAGE"
+        android:name="com.dynamicmedicine.mdme.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.dyamicmedicine.mdme.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.dynamicmedicine.mdme.permission.C2D_MESSAGE" />
 
     <uses-feature android:name="android.hardware.camera" />
     //needed to render google maps images
@@ -38,6 +38,26 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAqrogv2iaeEnYFTyLg6flbqa1_wuApgqc" />
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.dynamicmedicine.mdme" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".GcmIntentService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".LoginActivity"

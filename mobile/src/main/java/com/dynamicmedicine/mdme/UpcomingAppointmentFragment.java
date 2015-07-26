@@ -1,4 +1,4 @@
-package com.dyamicmedicine.mdme;
+package com.dynamicmedicine.mdme;
 
 
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.dyamicmedicine.mdme.asyncJson.AsyncGetJson;
+import com.dynamicmedicine.mdme.asyncJson.AsyncGetJson;
 
 import org.json.JSONObject;
 

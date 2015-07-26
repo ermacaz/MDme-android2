@@ -1,4 +1,4 @@
-package com.dyamicmedicine.mdme.asyncJson;
+package com.dynamicmedicine.mdme.asyncJson;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

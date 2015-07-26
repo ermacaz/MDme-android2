@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.dyamicmedicine.mdme.UpcomingAppointmentFragment">
+    tools:context="com.dynamicmedicine.mdme.UpcomingAppointmentFragment">
     <TextView
         android:id="@+id/profile_appointment_time"
         android:layout_width="fill_parent"

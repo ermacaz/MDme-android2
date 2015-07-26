@@ -1,22 +1,28 @@
-package com.dyamicmedicine.mdme;
+package com.dynamicmedicine.mdme;
 
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.IconButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dyamicmedicine.mdme.asyncJson.AsyncGetJson;
-import com.dyamicmedicine.mdme.asyncJson.DownloadImageTask;
+import com.dynamicmedicine.mdme.asyncJson.AsyncGetJson;
+import com.dynamicmedicine.mdme.asyncJson.DownloadImageTask;
 
 import org.json.JSONObject;
 
@@ -32,7 +38,7 @@ import org.json.JSONObject;
 // TODO  http://developer.android.com/intl/ko/training/basics/fragments/creating.html
 public class HomeFragment extends Fragment {
 
-    private final static String  TAG = "HomeActivity";
+    private final static String  TAG = "HomeFragment";
     private String profileApiEndpoint;
     private SharedPreferences mPreferences;
     private ImageView mProfileImage;
@@ -40,12 +46,13 @@ public class HomeFragment extends Fragment {
     private TextView  mProfileSex;
     private TextView  mProfileDob;
     private TextView  mProfileLocation;
-    private Button mButtonFirst;
-    private Button mButtonSecond;
-    private Button mButtonThird;
-    private Button mButtonFourth;
-    private Button mButtonFifth;
-    private Button mButtonSixth;
+    private IconButton mButtonFirst;
+    private IconButton mButtonSecond;
+    private IconButton mButtonThird;
+    private IconButton mButtonFourth;
+    private IconButton mButtonFifth;
+    private IconButton mButtonSixth;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -68,8 +75,9 @@ public class HomeFragment extends Fragment {
         setButtonListeners();
         getProfileInfo();
         super.onViewCreated(view, savedInstanceState);
-
     }
+
+
 
     private void getProfileInfo() {
         GetProfileTask getProfileTask = new GetProfileTask(getActivity(), TAG);
@@ -84,36 +92,36 @@ public class HomeFragment extends Fragment {
 
             }
         });
-//        mButtonSecond.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-//        mButtonThird.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-//        mButtonFourth.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-//        mButtonFifth.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-//        mButtonSixth.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        mButtonSecond.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mButtonThird.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mButtonFourth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mButtonFifth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mButtonSixth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void attachViewWidgets() {
@@ -122,12 +130,12 @@ public class HomeFragment extends Fragment {
         mProfileDob      = (TextView)  getView().findViewById(R.id.profile_birthday);
         mProfileName     = (TextView)  getView().findViewById(R.id.profile_full_name);
         mProfileLocation = (TextView)  getView().findViewById(R.id.profile_location);
-        mButtonFirst     = (Button)    getView().findViewById(R.id.profile_button_first);
-        mButtonSecond    = (Button)    getView().findViewById(R.id.profile_button_second);
-        mButtonThird     = (Button)    getView().findViewById(R.id.profile_button_third);
-        mButtonFourth    = (Button)    getView().findViewById(R.id.profile_button_fourth);
-        mButtonFifth     = (Button)    getView().findViewById(R.id.profile_button_fifth);
-        mButtonSixth     = (Button)    getView().findViewById(R.id.profile_button_sixth);
+        mButtonFirst     = (IconButton)    getView().findViewById(R.id.profile_button_first);
+        mButtonSecond    = (IconButton)    getView().findViewById(R.id.profile_button_second);
+        mButtonThird     = (IconButton)    getView().findViewById(R.id.profile_button_third);
+        mButtonFourth    = (IconButton)    getView().findViewById(R.id.profile_button_fourth);
+        mButtonFifth     = (IconButton)    getView().findViewById(R.id.profile_button_fifth);
+        mButtonSixth     = (IconButton)    getView().findViewById(R.id.profile_button_sixth);
     }
 
     private class GetProfileTask extends AsyncGetJson {

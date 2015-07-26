@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.dyamicmedicine.mdme.HomeFragment">
+    tools:context="com.dynamicmedicine.mdme.HomeFragment">
 
     <!--gray header-->
     <LinearLayout
@@ -60,37 +60,37 @@
         </LinearLayout>
     </LinearLayout>
     <!--menu items-->
-    <Button
+    <IconButton
         android:id="@+id/profile_button_first"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MDme_nav_first"
         android:text="@string/home_nav_first"/>
-    <Button
+    <IconButton
         android:id="@+id/profile_button_second"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MDme_nav_second"
         android:text="@string/home_nav_second"/>
-    <Button
+    <IconButton
         android:id="@+id/profile_button_third"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MDme_nav_third"
         android:text="@string/home_nav_third"/>
-    <Button
+    <IconButton
         android:id="@+id/profile_button_fourth"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MDme_nav_first"
         android:text="@string/home_nav_fourth"/>
-    <Button
+    <IconButton
         android:id="@+id/profile_button_fifth"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MDme_nav_second"
         android:text="@string/home_nav_fifth"/>
-    <Button
+    <IconButton
         android:id="@+id/profile_button_sixth"
         android:layout_width="match_parent"
         android:layout_height="50dp"
