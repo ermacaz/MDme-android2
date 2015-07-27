@@ -1,4 +1,4 @@
-package com.dyamicmedicine.mdme.asyncJson;
+package com.dynamicmedicine.mdme.asyncJson;
 
 import android.app.ProgressDialog;
 import android.content.Context;

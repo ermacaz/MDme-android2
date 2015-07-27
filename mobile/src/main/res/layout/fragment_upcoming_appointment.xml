@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.dynamicmedicine.mdme.UpcomingAppointmentFragment">
+    <TextView
+        android:id="@+id/profile_appointment_time"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="6pt"
+        android:gravity="center_horizontal"/>
+    <ProgressBar
+        android:id="@+id/profile_progress_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="8dp"
+        android:progress="0"
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
+    <TextView
+        android:id="@+id/profile_time_left"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="6pt"/>
+</LinearLayout>
+

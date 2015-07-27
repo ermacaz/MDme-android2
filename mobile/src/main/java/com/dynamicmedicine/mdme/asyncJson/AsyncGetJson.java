@@ -1,6 +1,7 @@
-package com.dyamicmedicine.mdme.asyncJson;
+package com.dynamicmedicine.mdme.asyncJson;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -20,14 +21,11 @@ import java.net.URL;
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential.
  */
-public class AsyncPostJson extends AsyncJsonTask {
+public class AsyncGetJson extends AsyncJsonTask {
     String TAG;
-    JSONObject params;
-    public AsyncPostJson(Context context, String tag, JSONObject params) {
+    public AsyncGetJson(Context context, String tag) {
         super(context);
         this.TAG =tag;
-        this.params = params;
-
     }
 
     @Override
@@ -35,28 +33,23 @@ public class AsyncPostJson extends AsyncJsonTask {
         JSONObject json = new JSONObject();
         HttpURLConnection conn = null;
         try {
-            BufferedOutputStream oStream;
             BufferedReader input;
+            SharedPreferences preferences = context.getSharedPreferences("CurrentUser", context.MODE_PRIVATE);
+            String auth = "Bearer " + preferences.getString("ApiToken", "");
             URL url = new URL(urls[0]);
             //configure request type / headers
             conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod("GET");
             conn.setDoInput(true);
-            conn.setDoOutput(true);
             conn.setUseCaches(false);
             conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            conn.setRequestProperty("Authorization", auth);
             conn.connect();
-            //set params
-            oStream = new BufferedOutputStream(conn.getOutputStream());
-            oStream.write(this.params.toString().getBytes("UTF-8"));
-            oStream.flush();
-            oStream.close();
 
             int responseCode = conn.getResponseCode();
             //unauthed
             if (responseCode >= 400 && responseCode <= 499) {
-                throw new Exception("Invalid credentials: Error " + responseCode);
-            }
+                throw new Exception("Invalid credentials: Error " + responseCode);            }
 
             //get and parse json response
             input = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -86,3 +79,4 @@ public class AsyncPostJson extends AsyncJsonTask {
         return json;
     }
 }
+

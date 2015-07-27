@@ -7,4 +7,7 @@
     <color name="MDme_nav_first">#F5F5F5</color>
     <color name="MDme_nav_second">#E0E0E0</color>
     <color name="MDme_nav_third">#BDBDBD</color>
+    <color name="MDme_progress_bar_start">#62c462</color>
+    <color name="MDme_progress_bar_middle">#fffcefbb</color>
+    <color name="MDme_progress_bar_end">#ee5f5b</color>
 </resources>

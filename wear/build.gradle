@@ -6,7 +6,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.dyamicmedicine.mdme"
+        applicationId "com.dynamicmedicine.mdme"
         minSdkVersion 20
         targetSdkVersion 22
         versionCode 1

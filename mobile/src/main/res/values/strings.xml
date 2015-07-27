@@ -5,11 +5,18 @@
     <string name="action_settings">Settings</string>
     <string name="login">login</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
-    <string name="home_nav_first">My Appointments</string>
-    <string name="home_nav_second">My Physicians &amp; Clinicians</string>
-    <string name="home_nav_third">My Health Information</string>
-    <string name="home_nav_fourth">My Medications &amp; Prescriptions</string>
-    <string name="home_nav_fifth">My Hospitals &amp; Clinics</string>
-    <string name="home_nav_sixth">My Appointment Check-In</string>
+    <string name="home_nav_first">{fa-calendar} My Appointments</string>
+    <string name="home_nav_second">{fa-user-md} My Physicians &amp; Clinicians</string>
+    <string name="home_nav_third">{fa-file-text} My Health Information</string>
+    <string name="home_nav_fourth">{fa-eyedropper} My Medications &amp; Prescriptions</string>
+    <string name="home_nav_fifth">{fa-hospital-o} My Hospitals &amp; Clinics</string>
+    <string name="home_nav_sixth">{fa-qrcode} My Appointment Check-In</string>
     <string name="desc_avatar">Profile image</string>
+    <string name="minutes_until_appointment">minutes until appointment</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home_activity2">HomeActivity2</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

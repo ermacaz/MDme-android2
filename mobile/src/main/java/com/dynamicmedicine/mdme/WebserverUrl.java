@@ -1,4 +1,4 @@
-package com.dyamicmedicine.mdme;
+package com.dynamicmedicine.mdme;
 
 /**
  * MDme Android application
@@ -9,8 +9,8 @@ package com.dyamicmedicine.mdme;
  * Proprietary and confidential.
  */
 public class WebserverUrl {
-    public static final String ROOT_URL = "http://www.mdme.wk:3000"; //work 10.5.3.84
+//    public static final String ROOT_URL = "http://www.mdme.wk:3000"; //work 10.5.3.84
     //public static final String ROOT_URL = "https://www.mdme.us";  //production
     //public static final String ROOT_URL = "http://www.mdme.tk:3000"; //usb tether
-//    public static final String ROOT_URL = "http://www.mdme.ak:3000"; //home net 8.8.8.7
+    public static final String ROOT_URL = "http://www.mdme.ak:3000"; //home net 8.8.8.7
 }
