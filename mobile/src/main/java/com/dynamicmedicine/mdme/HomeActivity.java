@@ -1,5 +1,8 @@
 package com.dynamicmedicine.mdme;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -10,8 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.IconButton;
 import android.widget.Toast;
 
 import com.dynamicmedicine.mdme.asyncJson.AsyncPostJson;
@@ -50,17 +51,19 @@ public class HomeActivity extends AppCompatActivity {
     private static final String PROPERTY_REG_ID = "registration_id";
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private String patientId;
-    private IconButton mButtonFirst;
-    private IconButton mButtonSecond;
-    private IconButton mButtonThird;
-    private IconButton mButtonFourth;
-    private IconButton mButtonFifth;
-    private IconButton mButtonSixth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        //set home fragment
+        Fragment fragment = new HomeFragment();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.contentFragment, fragment);
+        transaction.commit();
+
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
         patientId = mPreferences.getString("patient_id", "-1");
         deviceRegistrationUrl = "/patients/" + patientId + "/devices";
@@ -75,59 +78,6 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         setupGooglePlayServices();
-
-        //setup buttons
-        attachViewWidgets();
-        setButtonListeners();
-
-    }
-
-    private void attachViewWidgets() {
-        mButtonFirst = (IconButton) findViewById(R.id.profile_button_first);
-        mButtonSecond = (IconButton) findViewById(R.id.profile_button_second);
-        mButtonThird = (IconButton) findViewById(R.id.profile_button_third);
-        mButtonFourth = (IconButton) findViewById(R.id.profile_button_fourth);
-        mButtonFifth = (IconButton) findViewById(R.id.profile_button_fifth);
-        mButtonSixth = (IconButton) findViewById(R.id.profile_button_sixth);
-    }
-
-    private void setButtonListeners() {
-        mButtonFirst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        mButtonSecond.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        mButtonThird.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        mButtonFourth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        mButtonFifth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        mButtonSixth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     @Override

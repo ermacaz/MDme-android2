@@ -70,7 +70,7 @@
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home_activity2" >
+            android:label="@string/home_activity" >
         </activity>
     </application>
 

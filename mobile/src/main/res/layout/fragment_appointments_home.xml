@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.dynamicmedicine.mdme.HomeFragment">
+    tools:context="com.dynamicmedicine.mdme.AppointmentsHomeFragment">
 
     <!--gray header-->
     <LinearLayout
@@ -12,15 +12,15 @@
         android:background="@color/MDme_lightgray"
         android:orientation="horizontal"
         android:layout_gravity="center_vertical"
-        android:padding="28dp">
+        android:padding="16dp">
         <ImageView
-            android:id="@+id/profile_avatar"
+            android:id="@+id/header_avatar_thumb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/missing"
             android:layout_gravity="center_vertical"
             android:layout_weight=".3"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginRight="32dp"
             android:layout_marginLeft="16dp"
@@ -32,27 +32,15 @@
             android:layout_gravity="start"
             android:layout_weight=".6">
             <TextView
-                android:id="@+id/profile_full_name"
+                android:id="@+id/header_full_name"
                 android:layout_marginBottom="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/MDme_primary"
-                android:textSize="8pt"
+                android:textSize="6pt"
                 />
             <TextView
-                android:id="@+id/profile_sex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/MDme_primary"
-                android:textSize="6pt"/>
-            <TextView
-                android:id="@+id/profile_birthday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/MDme_primary"
-                android:textSize="6pt"/>
-            <TextView
-                android:id="@+id/profile_location"
+                android:id="@+id/header_birthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/MDme_primary"
@@ -60,40 +48,28 @@
         </LinearLayout>
     </LinearLayout>
     <!--menu items-->
-    <IconButton
-        android:id="@+id/profile_button_first"
+    <Button
+        android:id="@+id/appointment_home_button_first"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MDme_nav_first"
-        android:text="@string/home_nav_first"/>
-    <IconButton
-        android:id="@+id/profile_button_second"
+        android:text="@string/appointment_home_nav_first"/>
+    <Button
+        android:id="@+id/appointment_home_button_second"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MDme_nav_second"
-        android:text="@string/home_nav_second"/>
-    <IconButton
-        android:id="@+id/profile_button_third"
+        android:text="@string/appointment_home_nav_second"/>
+    <Button
+        android:id="@+id/appointment_home_button_third"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MDme_nav_third"
-        android:text="@string/home_nav_third"/>
-    <IconButton
-        android:id="@+id/profile_button_fourth"
+        android:text="@string/appointment_home_nav_third"/>
+    <Button
+        android:id="@+id/appointment_home_button_fourth"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MDme_nav_first"
-        android:text="@string/home_nav_fourth"/>
-    <IconButton
-        android:id="@+id/profile_button_fifth"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/MDme_nav_second"
-        android:text="@string/home_nav_fifth"/>
-    <IconButton
-        android:id="@+id/profile_button_sixth"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/MDme_nav_third"
-        android:text="@string/home_nav_sixth"/>
+        android:text="@string/appointment_home_nav_fourth"/>
 </LinearLayout>
