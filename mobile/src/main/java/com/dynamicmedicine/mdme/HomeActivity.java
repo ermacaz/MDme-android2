@@ -55,8 +55,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
         patientId = mPreferences.getString("patient_id", "-1");
-        deviceRegistrationUrl = WebserverUrl.ROOT_URL +
-                "/patients/" + patientId + "/devices";
+        deviceRegistrationUrl = "/patients/" + patientId + "/devices";
         context = getApplicationContext();
 
         //get app version for gcm

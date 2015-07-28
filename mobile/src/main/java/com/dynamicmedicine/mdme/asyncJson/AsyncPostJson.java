@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.dynamicmedicine.mdme.WebserverUrl;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,7 +40,7 @@ public class AsyncPostJson extends AsyncJsonTask {
         try {
             BufferedOutputStream oStream;
             BufferedReader input;
-            URL url = new URL(urls[0]);
+            URL url = new URL(WebserverUrl.ROOT_URL + urls[0]);
             //configure request type / headers
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");

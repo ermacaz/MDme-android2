@@ -59,7 +59,7 @@ public class UpcomingAppointmentFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mPreferences = getActivity().getSharedPreferences("CurrentUser", Context.MODE_PRIVATE);
         String userId = mPreferences.getString("patient_id", "-1");
-        upcomingApptApiEndpoint = WebserverUrl.ROOT_URL + "/patients/get-upcoming-appointment.json";
+        upcomingApptApiEndpoint = "/patients/get-upcoming-appointment.json";
         attachViewWidgets();
         isAppointment = false;
         getUpcomingAppt();

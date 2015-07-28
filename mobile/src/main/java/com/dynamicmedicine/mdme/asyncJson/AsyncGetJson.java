@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.dynamicmedicine.mdme.WebserverUrl;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,7 +38,7 @@ public class AsyncGetJson extends AsyncJsonTask {
             BufferedReader input;
             SharedPreferences preferences = context.getSharedPreferences("CurrentUser", context.MODE_PRIVATE);
             String auth = "Bearer " + preferences.getString("ApiToken", "");
-            URL url = new URL(urls[0]);
+            URL url = new URL(WebserverUrl.ROOT_URL + urls[0]);
             //configure request type / headers
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");

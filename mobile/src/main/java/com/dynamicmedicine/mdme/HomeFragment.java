@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.dynamicmedicine.mdme.asyncJson.AsyncGetJson;
 import com.dynamicmedicine.mdme.asyncJson.DownloadImageTask;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -52,6 +53,7 @@ public class HomeFragment extends Fragment {
     private IconButton mButtonFourth;
     private IconButton mButtonFifth;
     private IconButton mButtonSixth;
+    private Patient    mPatient;
 
 
     public HomeFragment() {
@@ -70,7 +72,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mPreferences = getActivity().getSharedPreferences("CurrentUser", Context.MODE_PRIVATE);
         String userId = mPreferences.getString("patient_id", "-1");
-        profileApiEndpoint = WebserverUrl.ROOT_URL + "/patients/" + userId + ".json";
+        profileApiEndpoint = "/patients/" + userId + ".json";
         attachViewWidgets();
         setButtonListeners();
         getProfileInfo();
@@ -148,13 +150,37 @@ public class HomeFragment extends Fragment {
             try {
                 if (json.getBoolean("success")) {
                     JSONObject patient = json.getJSONObject("patient");
-                    mProfileName.setText(patient.getString("full_name"));
-                    mProfileDob.setText("DOB: " + patient.getString("birthday_form_format"));
-                    mProfileSex.setText(patient.getString("sex_humanize"));
-                    mProfileLocation.setText(patient.getString("location"));
-                    getActivity().setTitle(patient.getString("full_name"));
+                    mPatient = new Patient(
+                            patient.getString("id"),
+                            patient.getString("first_name"),
+                            patient.getString("last_name"),
+                            patient.getString("email"),
+                            patient.getString("home_phone"),
+                            patient.getString("work_phone"),
+                            patient.getString("mobile_phone"),
+                            patient.getString("avatar_medium_url"),
+                            patient.getString("avatar_thumb_url"),
+                            patient.getString("social_last_four"),
+                            patient.getString("birthday_form_format"),
+                            patient.getString("sex_humanize"),
+                            patient.getString("address1"),
+                            patient.getString("address2"),
+                            patient.getString("city"),
+                            patient.getString("state"),
+                            patient.getString("country"),
+                            patient.getString("zipcode"));
+                    mProfileName.setText(mPatient.getFullName());
+                    mProfileDob.setText("DOB: " + mPatient.getmBirthday());
+                    mProfileSex.setText(mPatient.getmSex());
+                    mProfileLocation.setText(mPatient.getLocation());
+                    getActivity().setTitle(mPatient.getFullName());
+                    //save patient
+                    SharedPreferences.Editor editor = mPreferences.edit();
+                    Gson gson = new Gson();
+                    editor.putString("patientObj", gson.toJson(mPatient));
+                    editor.apply();
                     //download image
-                    new DownloadImageTask(mProfileImage, TAG).execute(WebserverUrl.ROOT_URL + patient.getString("avatar_medium_url"));
+                    new DownloadImageTask(mProfileImage, TAG).execute(mPatient.getmAvatarMediumUrl());
                 }
                 else {
                     Toast.makeText(this.context, json.getString("message"), Toast.LENGTH_LONG).show();

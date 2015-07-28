@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class LoginActivity extends Activity {
 
     private final static String TAG = "LoginActivity";
-    private final static String LOGIN_API_ENDPOINT = WebserverUrl.ROOT_URL + "/sessions.json";
+    private final static String LOGIN_API_ENDPOINT = "/login";
     private SharedPreferences mPreferences;
     private String mUserEmail;
     private String mUserPassword;

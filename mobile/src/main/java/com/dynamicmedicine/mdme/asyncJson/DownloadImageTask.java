@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.dynamicmedicine.mdme.WebserverUrl;
+
 import java.io.InputStream;
 import java.net.URL;
 
@@ -27,7 +29,7 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap>  {
     }
 
     protected Bitmap doInBackground(String... urls) {
-        String urlDisplay = urls[0];
+        String urlDisplay = WebserverUrl.DOMAIN + urls[0];
         Bitmap picture = null;
         try {
             InputStream in = new URL(urlDisplay).openStream();
