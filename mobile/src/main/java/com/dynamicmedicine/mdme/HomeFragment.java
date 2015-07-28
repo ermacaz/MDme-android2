@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import com.dynamicmedicine.mdme.asyncJson.AsyncGetJson;
 import com.dynamicmedicine.mdme.asyncJson.DownloadImageTask;
-import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -47,12 +46,6 @@ public class HomeFragment extends Fragment {
     private TextView  mProfileSex;
     private TextView  mProfileDob;
     private TextView  mProfileLocation;
-    private IconButton mButtonFirst;
-    private IconButton mButtonSecond;
-    private IconButton mButtonThird;
-    private IconButton mButtonFourth;
-    private IconButton mButtonFifth;
-    private IconButton mButtonSixth;
     private Patient    mPatient;
 
 
@@ -74,7 +67,6 @@ public class HomeFragment extends Fragment {
         String userId = mPreferences.getString("patient_id", "-1");
         profileApiEndpoint = "/patients/" + userId + ".json";
         attachViewWidgets();
-        setButtonListeners();
         getProfileInfo();
         super.onViewCreated(view, savedInstanceState);
     }
@@ -87,44 +79,7 @@ public class HomeFragment extends Fragment {
         getProfileTask.execute(profileApiEndpoint);
     }
 
-    private void setButtonListeners() {
-        mButtonFirst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        mButtonSecond.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        mButtonThird.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        mButtonFourth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        mButtonFifth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        mButtonSixth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-    }
 
     private void attachViewWidgets() {
         mProfileImage    = (ImageView) getView().findViewById(R.id.profile_avatar);
@@ -132,12 +87,6 @@ public class HomeFragment extends Fragment {
         mProfileDob      = (TextView)  getView().findViewById(R.id.profile_birthday);
         mProfileName     = (TextView)  getView().findViewById(R.id.profile_full_name);
         mProfileLocation = (TextView)  getView().findViewById(R.id.profile_location);
-        mButtonFirst     = (IconButton)    getView().findViewById(R.id.profile_button_first);
-        mButtonSecond    = (IconButton)    getView().findViewById(R.id.profile_button_second);
-        mButtonThird     = (IconButton)    getView().findViewById(R.id.profile_button_third);
-        mButtonFourth    = (IconButton)    getView().findViewById(R.id.profile_button_fourth);
-        mButtonFifth     = (IconButton)    getView().findViewById(R.id.profile_button_fifth);
-        mButtonSixth     = (IconButton)    getView().findViewById(R.id.profile_button_sixth);
     }
 
     private class GetProfileTask extends AsyncGetJson {
@@ -150,7 +99,7 @@ public class HomeFragment extends Fragment {
             try {
                 if (json.getBoolean("success")) {
                     JSONObject patient = json.getJSONObject("patient");
-                    mPatient = new Patient(
+                    mPatient = Patient.getInstance(
                             patient.getString("id"),
                             patient.getString("first_name"),
                             patient.getString("last_name"),
@@ -174,11 +123,6 @@ public class HomeFragment extends Fragment {
                     mProfileSex.setText(mPatient.getmSex());
                     mProfileLocation.setText(mPatient.getLocation());
                     getActivity().setTitle(mPatient.getFullName());
-                    //save patient
-                    SharedPreferences.Editor editor = mPreferences.edit();
-                    Gson gson = new Gson();
-                    editor.putString("patientObj", gson.toJson(mPatient));
-                    editor.apply();
                     //download image
                     new DownloadImageTask(mProfileImage, TAG).execute(mPatient.getmAvatarMediumUrl());
                 }

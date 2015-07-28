@@ -13,7 +13,46 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:id="@+id/home_fragment"
-            android:name="com.dynamicmedicine.mdme.HomeFragment"/>
+            android:name="com.dynamicmedicine.mdme.HomeFragment"
+            tools:layout="@layout/fragment_home" />
+
+        <!--menu items-->
+        <IconButton
+            android:id="@+id/profile_button_first"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/MDme_nav_first"
+            android:text="@string/home_nav_first"/>
+        <IconButton
+            android:id="@+id/profile_button_second"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/MDme_nav_second"
+            android:text="@string/home_nav_second"/>
+        <IconButton
+            android:id="@+id/profile_button_third"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/MDme_nav_third"
+            android:text="@string/home_nav_third"/>
+        <IconButton
+            android:id="@+id/profile_button_fourth"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/MDme_nav_first"
+            android:text="@string/home_nav_fourth"/>
+        <IconButton
+            android:id="@+id/profile_button_fifth"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/MDme_nav_second"
+            android:text="@string/home_nav_fifth"/>
+        <IconButton
+            android:id="@+id/profile_button_sixth"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/MDme_nav_third"
+            android:text="@string/home_nav_sixth"/>
 
 
     </LinearLayout>
