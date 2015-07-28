@@ -40,9 +40,9 @@ public class Patient {
         return mInstance;
     }
 
-    public static Patient getmInstance() {
+    public static Patient getInstance() {
         if (mInstance == null) {
-            mInstance = new Patient();
+            return null;
         }
         return mInstance;
     }

@@ -76,8 +76,24 @@ public class HomeFragment extends Fragment {
         profileApiEndpoint = "/patients/" + userId + ".json";
         attachViewWidgets();
         setButtonListeners();
-        getProfileInfo();
+        mPatient = Patient.getInstance();
+        if (mPatient == null) {
+            getProfileInfo();
+        }
+        else {
+            applyProfileToViews();
+        }
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void applyProfileToViews() {
+        mProfileName.setText(mPatient.getFullName());
+        mProfileDob.setText("DOB: " + mPatient.getmBirthday());
+        mProfileSex.setText(mPatient.getmSex());
+        mProfileLocation.setText(mPatient.getLocation());
+        getActivity().setTitle(mPatient.getFullName());
+        //download image
+        new DownloadImageTask(mProfileImage, TAG).execute(mPatient.getmAvatarMediumUrl());
     }
 
 
@@ -94,8 +110,9 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Fragment fragment = new AppointmentsHomeFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-                transaction.replace(R.id.contentFragment, fragment);
+                transaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right,
+                        R.animator.slide_in_to_right, R.animator.slide_out_to_left);
+                transaction.replace(R.id.contentFragment, fragment).addToBackStack(TAG);
                 transaction.commit();
             }
         });
@@ -174,13 +191,7 @@ public class HomeFragment extends Fragment {
                             patient.getString("state"),
                             patient.getString("country"),
                             patient.getString("zipcode"));
-                    mProfileName.setText(mPatient.getFullName());
-                    mProfileDob.setText("DOB: " + mPatient.getmBirthday());
-                    mProfileSex.setText(mPatient.getmSex());
-                    mProfileLocation.setText(mPatient.getLocation());
-                    getActivity().setTitle(mPatient.getFullName());
-                    //download image
-                    new DownloadImageTask(mProfileImage, TAG).execute(mPatient.getmAvatarMediumUrl());
+                            applyProfileToViews();
                 }
                 else {
                     Toast.makeText(this.context, json.getString("message"), Toast.LENGTH_LONG).show();
