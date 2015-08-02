@@ -18,7 +18,8 @@
     <string name="appointment_home_nav_third">Submit Appointment Request</string>
     <string name="appointment_home_nav_fourth">Change an Appointment</string>
     <string name="home_activity">Home Activity</string>
-
-
+    <string name="appointment_details">Appointment Details</string>
+    <string name="time">Time:</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_checkin">My Appointment Check-In</string>
 </resources>

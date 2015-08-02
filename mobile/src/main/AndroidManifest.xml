@@ -72,6 +72,14 @@
             android:name=".HomeActivity"
             android:label="@string/home_activity" >
         </activity>
+        <activity
+            android:name=".CheckinActivity"
+            android:label="@string/title_activity_checkin"
+            android:parentActivityName=".HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dynamicmedicine.mdme.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

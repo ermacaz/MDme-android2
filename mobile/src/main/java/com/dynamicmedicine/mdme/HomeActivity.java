@@ -37,9 +37,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class HomeActivity extends AppCompatActivity {
 
-    //for gcm reg
     private final String TAG = "HomeActivity";
 
+    //for gcm reg
     private GoogleCloudMessaging gcm;
     private AtomicInteger msgID = new AtomicInteger();
     private Context context;
