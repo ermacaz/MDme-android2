@@ -77,13 +77,7 @@ public class HomeFragment extends Fragment {
         attachViewWidgets();
         setButtonListeners();
         mPatient = Patient.getInstance(getActivity());
-        //todo mpatient filled async so still null here
-        if (mPatient == null) {
-//            getProfileInfo();
-        }
-        else {
-            applyProfileToViews();
-        }
+        applyProfileToViews();
         super.onViewCreated(view, savedInstanceState);
     }
 

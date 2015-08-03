@@ -52,16 +52,43 @@ public class Patient {
     }
 
     public static Patient getInstance(Context context) {
+        JSONObject json= new JSONObject();
         if (mInstance == null) {
             getProfileTask = new GetProfileTask(context, TAG);
             getProfileTask.setMessageLoading("Loading profile...");
-            getProfileTask.execute("/patients/1.json");
+            try {
+                json = getProfileTask.execute("/patients/1.json").get();
+                if (json.getBoolean("success")) {
+                    JSONObject patient = json.getJSONObject("patient");
+                    mInstance = new Patient(
+                            patient.getString("id"),
+                            patient.getString("first_name"),
+                            patient.getString("last_name"),
+                            patient.getString("email"),
+                            patient.getString("home_phone"),
+                            patient.getString("work_phone"),
+                            patient.getString("mobile_phone"),
+                            patient.getString("avatar_medium_url"),
+                            patient.getString("avatar_thumb_url"),
+                            patient.getString("social_last_four"),
+                            patient.getString("birthday_form_format"),
+                            patient.getString("sex_humanize"),
+                            patient.getString("address1"),
+                            patient.getString("address2"),
+                            patient.getString("city"),
+                            patient.getString("state"),
+                            patient.getString("country"),
+                            patient.getString("zipcode"));
+
+                }
+                else {
+                    Toast.makeText(context, json.getString("message"), Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e ) {
+                Log.e(TAG, e.getMessage());
+            }
         }
         return mInstance;
-    }
-
-    private Patient() {
-
     }
 
     private Patient(String mId, String mFirstName, String mLastName, String mEmail, String mHomePhone, String mWorkPhone, String mMobilePhone, String mAvatarMediumUrl, String mAvatarThumbUrl, String mSocialLastFour, String mBirthday, String mSex, String mAddress1, String mAddress2, String mCity, String mState, String mCountry, String mZipcode) {
@@ -252,31 +279,33 @@ public class Patient {
         @Override
         protected void onPostExecute(JSONObject json) {
             try {
-                if (json.getBoolean("success")) {
-                    JSONObject patient = json.getJSONObject("patient");
-                    mInstance = new Patient(
-                            patient.getString("id"),
-                            patient.getString("first_name"),
-                            patient.getString("last_name"),
-                            patient.getString("email"),
-                            patient.getString("home_phone"),
-                            patient.getString("work_phone"),
-                            patient.getString("mobile_phone"),
-                            patient.getString("avatar_medium_url"),
-                            patient.getString("avatar_thumb_url"),
-                            patient.getString("social_last_four"),
-                            patient.getString("birthday_form_format"),
-                            patient.getString("sex_humanize"),
-                            patient.getString("address1"),
-                            patient.getString("address2"),
-                            patient.getString("city"),
-                            patient.getString("state"),
-                            patient.getString("country"),
-                            patient.getString("zipcode"));
-                }
-                else {
-                    Toast.makeText(this.context, json.getString("message"), Toast.LENGTH_LONG).show();
-                }
+                //moved to above with .get() so not async
+//                if (json.getBoolean("success")) {
+//                    JSONObject patient = json.getJSONObject("patient");
+//                    mInstance = new Patient(
+//                            patient.getString("id"),
+//                            patient.getString("first_name"),
+//                            patient.getString("last_name"),
+//                            patient.getString("email"),
+//                            patient.getString("home_phone"),
+//                            patient.getString("work_phone"),
+//                            patient.getString("mobile_phone"),
+//                            patient.getString("avatar_medium_url"),
+//                            patient.getString("avatar_thumb_url"),
+//                            patient.getString("social_last_four"),
+//                            patient.getString("birthday_form_format"),
+//                            patient.getString("sex_humanize"),
+//                            patient.getString("address1"),
+//                            patient.getString("address2"),
+//                            patient.getString("city"),
+//                            patient.getString("state"),
+//                            patient.getString("country"),
+//                            patient.getString("zipcode"));
+//
+//                }
+//                else {
+//                    Toast.makeText(this.context, json.getString("message"), Toast.LENGTH_LONG).show();
+//                }
             }
             catch (Exception e) {
                 Log.e(TAG, e.getMessage());
