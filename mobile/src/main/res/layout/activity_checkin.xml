@@ -1,0 +1,97 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dynamicmedicine.mdme.CheckinActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
+
+        <!--gray header-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/MDme_lightgray"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:padding="16dp">
+            <ImageView
+                android:id="@+id/header_avatar_thumb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/missing"
+                android:layout_gravity="center_vertical"
+                android:layout_weight=".3"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginLeft="16dp"
+                android:contentDescription="@string/desc_avatar"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="start"
+                android:layout_weight=".6">
+                <TextView
+                    android:id="@+id/header_full_name"
+                    android:layout_marginBottom="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/MDme_primary"
+                    android:textSize="6pt"
+                    />
+                <TextView
+                    android:id="@+id/header_birthday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/MDme_primary"
+                    android:textSize="6pt"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--appointment details box-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/appointment_details"
+                android:textSize="8pt"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/time"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <!--qrcode area-->
+    </LinearLayout>
+
+
+    <fragment
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        android:id="@+id/upcoming_appointment_fragment"
+        android:name="com.dynamicmedicine.mdme.UpcomingAppointmentFragment"/>
+
+</RelativeLayout>
