@@ -5,6 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.dynamicmedicine.mdme.asyncJson.DownloadImageTask;
+
+import org.w3c.dom.Text;
 
 /**
  * MDme Android application
@@ -19,14 +25,16 @@ public class CheckinActivity extends AppCompatActivity {
 
     private final String TAG = "CheckinActivity";
     private Patient mPatient;
+    private UpcomingAppointment mUpcomingAppointment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkin);
-        mPatient = Patient.getmInstance();
+        mPatient = Patient.getInstance(this);
+        mUpcomingAppointment = UpcomingAppointment.getInstance(this);
         setPatientInfo();
-        getCheckinInfo();
+        setAppointmentInfo();
     }
 
     @Override
@@ -52,6 +60,14 @@ public class CheckinActivity extends AppCompatActivity {
     }
 
     private void setPatientInfo() {
+        ImageView headerAvatarThumb = (ImageView)findViewById(R.id.header_avatar_thumb);
+        new DownloadImageTask(headerAvatarThumb, TAG).execute(mPatient.getmAvatarThumbUrl());
+        TextView headerFullName = (TextView)findViewById(R.id.header_full_name);
+        headerFullName.setText(mPatient.getFullName());
+        TextView headerBirthday = (TextView)findViewById(R.id.header_birthday);
+    }
 
+    private void setAppointmentInfo() {
+        TextView apptTimeTextView = (TextView)findViewById(R.id.checkin_appointment_time);
     }
 }

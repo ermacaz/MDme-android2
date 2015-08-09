@@ -37,9 +37,9 @@ public class UpcomingAppointmentFragment extends Fragment {
     private SharedPreferences mPreferences;
     private ProgressBar mProgressBar;
     private Handler mBarHandler = new Handler();
-    private boolean isAppointment;
     private TextView  mProfileAppointmentTime;
     private TextView  mProfileAppointmentTimeleft;
+    private UpcomingAppointment mUpcomingAppointment;
 
 
 
@@ -58,11 +58,9 @@ public class UpcomingAppointmentFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mPreferences = getActivity().getSharedPreferences("CurrentUser", Context.MODE_PRIVATE);
-        String userId = mPreferences.getString("patient_id", "-1");
-        upcomingApptApiEndpoint = "/patients/get-upcoming-appointment.json";
         attachViewWidgets();
-        isAppointment = false;
-        getUpcomingAppt();
+        mUpcomingAppointment = UpcomingAppointment.getInstance(getActivity());
+        applyProfileToViews();
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -73,9 +71,22 @@ public class UpcomingAppointmentFragment extends Fragment {
     }
 
     private void getUpcomingAppt() {
-        GetUpcomingApptTask getUpcomingApptTask = new GetUpcomingApptTask(getActivity(), TAG);
-        getUpcomingApptTask.setMessageLoading("Loading profile...");
-        getUpcomingApptTask.execute(upcomingApptApiEndpoint);
+//        GetUpcomingApptTask getUpcomingApptTask = new GetUpcomingApptTask(getActivity(), TAG);
+//        getUpcomingApptTask.setMessageLoading("Loading profile...");
+//        getUpcomingApptTask.execute(upcomingApptApiEndpoint);
+    }
+
+    private void applyProfileToViews() {
+        if (mUpcomingAppointment == null) {
+            mProgressBar.setVisibility(View.INVISIBLE);
+        }
+        else {
+            mProfileAppointmentTime.setText(mUpcomingAppointment.getmDate() + " " + mUpcomingAppointment.getmTime());
+            mMinutesLeft = mUpcomingAppointment.getmMinutesLeft();
+            mProfileAppointmentTimeleft.setText(Integer.toString(mMinutesLeft) + " " + getResources().getString(R.string.minutes_until_appointment));
+            mAppointmentPercent = mUpcomingAppointment.getmPercent();
+            setupProgressBar();
+        }
     }
 
     private void setupProgressBar() {
@@ -117,33 +128,13 @@ public class UpcomingAppointmentFragment extends Fragment {
 
     }
 
-    private class GetUpcomingApptTask extends AsyncGetJson {
-        public GetUpcomingApptTask(Context context, String tag) { super(context, tag); }
-
-        @Override
-        protected void onPostExecute(JSONObject json) {
-            try {
-                if (json.getBoolean("success")) {
-
-                    if (json.has("date")) { //json will only have success when no appt
-                        mProfileAppointmentTime.setText(json.getString("date") + " " + json.getString("time"));
-                        mMinutesLeft = json.getInt("minutesLeft");
-                        mProfileAppointmentTimeleft.setText(json.getString("minutesLeft") + " " + getResources().getString(R.string.minutes_until_appointment));
-                        mAppointmentPercent = json.getInt("percent");
-                        setupProgressBar();
-                    }
-                    else {
-                        mProgressBar.setVisibility(View.INVISIBLE);
-                    }
-                }
-            }
-            catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
-            finally {
-                super.onPostExecute(json);
-            }
-        }
-    }
+//    private class GetUpcomingApptTask extends AsyncGetJson {
+//        public GetUpcomingApptTask(Context context, String tag) { super(context, tag); }
+//
+//        @Override
+//        protected void onPostExecute(JSONObject json) {
+//            super.onPostExecute(json);
+//        }
+//    }
 
 }

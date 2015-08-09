@@ -41,16 +41,6 @@ public class Patient {
     private String mZipcode;
     private static GetProfileTask getProfileTask;
 
-    public static Patient getInstance(String mId, String mFirstName, String mLastName, String mEmail, String mHomePhone, String mWorkPhone, String mMobilePhone, String mAvatarMediumUrl, String mAvatarThumbUrl, String mSocialLastFour, String mBirthday, String mSex, String mAddress1, String mAddress2, String mCity, String mState, String mCountry, String mZipcode) {
-        if (mInstance == null) {
-
-            mInstance = new Patient(mId, mFirstName, mLastName, mEmail, mHomePhone,
-                    mWorkPhone, mMobilePhone, mAvatarMediumUrl, mAvatarThumbUrl, mSocialLastFour,
-                    mBirthday, mSex, mAddress1, mAddress2, mCity, mState, mCountry, mZipcode);
-        }
-        return mInstance;
-    }
-
     public static Patient getInstance(Context context) {
         JSONObject json= new JSONObject();
         if (mInstance == null) {
