@@ -1,5 +1,13 @@
 package com.dynamicmedicine.mdme;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.dynamicmedicine.mdme.asyncJson.AsyncGetJson;
+
+import org.json.JSONObject;
+
 /**
  * MDme Android application
  * Author:: ermacaz (maito:mattahamada@gmail.com)
@@ -10,6 +18,7 @@ package com.dynamicmedicine.mdme;
  */
 public class Patient {
 
+    private static final String TAG = "PatientSingleton";
     private static Patient mInstance = null;
 
     private String mId;
@@ -30,9 +39,11 @@ public class Patient {
     private String mState;
     private String mCountry;
     private String mZipcode;
+    private static GetProfileTask getProfileTask;
 
     public static Patient getInstance(String mId, String mFirstName, String mLastName, String mEmail, String mHomePhone, String mWorkPhone, String mMobilePhone, String mAvatarMediumUrl, String mAvatarThumbUrl, String mSocialLastFour, String mBirthday, String mSex, String mAddress1, String mAddress2, String mCity, String mState, String mCountry, String mZipcode) {
         if (mInstance == null) {
+
             mInstance = new Patient(mId, mFirstName, mLastName, mEmail, mHomePhone,
                     mWorkPhone, mMobilePhone, mAvatarMediumUrl, mAvatarThumbUrl, mSocialLastFour,
                     mBirthday, mSex, mAddress1, mAddress2, mCity, mState, mCountry, mZipcode);
@@ -40,15 +51,44 @@ public class Patient {
         return mInstance;
     }
 
-    public static Patient getmInstance() {
+    public static Patient getInstance(Context context) {
+        JSONObject json= new JSONObject();
         if (mInstance == null) {
-            mInstance = new Patient();
+            getProfileTask = new GetProfileTask(context, TAG);
+            getProfileTask.setMessageLoading("Loading profile...");
+            try {
+                json = getProfileTask.execute("/patients/1.json").get();
+                if (json.getBoolean("success")) {
+                    JSONObject patient = json.getJSONObject("patient");
+                    mInstance = new Patient(
+                            patient.getString("id"),
+                            patient.getString("first_name"),
+                            patient.getString("last_name"),
+                            patient.getString("email"),
+                            patient.getString("home_phone"),
+                            patient.getString("work_phone"),
+                            patient.getString("mobile_phone"),
+                            patient.getString("avatar_medium_url"),
+                            patient.getString("avatar_thumb_url"),
+                            patient.getString("social_last_four"),
+                            patient.getString("birthday_form_format"),
+                            patient.getString("sex_humanize"),
+                            patient.getString("address1"),
+                            patient.getString("address2"),
+                            patient.getString("city"),
+                            patient.getString("state"),
+                            patient.getString("country"),
+                            patient.getString("zipcode"));
+
+                }
+                else {
+                    Toast.makeText(context, json.getString("message"), Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e ) {
+                Log.e(TAG, e.getMessage());
+            }
         }
         return mInstance;
-    }
-
-    private Patient() {
-
     }
 
     private Patient(String mId, String mFirstName, String mLastName, String mEmail, String mHomePhone, String mWorkPhone, String mMobilePhone, String mAvatarMediumUrl, String mAvatarThumbUrl, String mSocialLastFour, String mBirthday, String mSex, String mAddress1, String mAddress2, String mCity, String mState, String mCountry, String mZipcode) {
@@ -228,4 +268,52 @@ public class Patient {
     public void setmZipcode(String mZipcode) {
         this.mZipcode = mZipcode;
     }
+
+
+
+    private static class GetProfileTask extends AsyncGetJson {
+        public GetProfileTask(Context context, String tag) {
+            super(context, tag);
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                //moved to above with .get() so not async
+//                if (json.getBoolean("success")) {
+//                    JSONObject patient = json.getJSONObject("patient");
+//                    mInstance = new Patient(
+//                            patient.getString("id"),
+//                            patient.getString("first_name"),
+//                            patient.getString("last_name"),
+//                            patient.getString("email"),
+//                            patient.getString("home_phone"),
+//                            patient.getString("work_phone"),
+//                            patient.getString("mobile_phone"),
+//                            patient.getString("avatar_medium_url"),
+//                            patient.getString("avatar_thumb_url"),
+//                            patient.getString("social_last_four"),
+//                            patient.getString("birthday_form_format"),
+//                            patient.getString("sex_humanize"),
+//                            patient.getString("address1"),
+//                            patient.getString("address2"),
+//                            patient.getString("city"),
+//                            patient.getString("state"),
+//                            patient.getString("country"),
+//                            patient.getString("zipcode"));
+//
+//                }
+//                else {
+//                    Toast.makeText(this.context, json.getString("message"), Toast.LENGTH_LONG).show();
+//                }
+            }
+            catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
+            finally {
+                super.onPostExecute(json);
+            }
+        }
+    }
+
 }

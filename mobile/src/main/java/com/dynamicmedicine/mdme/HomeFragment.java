@@ -76,17 +76,28 @@ public class HomeFragment extends Fragment {
         profileApiEndpoint = "/patients/" + userId + ".json";
         attachViewWidgets();
         setButtonListeners();
-        getProfileInfo();
+        mPatient = Patient.getInstance(getActivity());
+        applyProfileToViews();
         super.onViewCreated(view, savedInstanceState);
     }
 
-
-
-    private void getProfileInfo() {
-        GetProfileTask getProfileTask = new GetProfileTask(getActivity(), TAG);
-        getProfileTask.setMessageLoading("Loading profile...");
-        getProfileTask.execute(profileApiEndpoint);
+    private void applyProfileToViews() {
+        mProfileName.setText(mPatient.getFullName());
+        mProfileDob.setText("DOB: " + mPatient.getmBirthday());
+        mProfileSex.setText(mPatient.getmSex());
+        mProfileLocation.setText(mPatient.getLocation());
+        getActivity().setTitle(mPatient.getFullName());
+        //download image
+        new DownloadImageTask(mProfileImage, TAG).execute(mPatient.getmAvatarMediumUrl());
     }
+
+
+
+//    private void getProfileInfo() {
+//        GetProfileTask getProfileTask = new GetProfileTask(getActivity(), TAG);
+//        getProfileTask.setMessageLoading("Loading profile...");
+//        getProfileTask.execute(profileApiEndpoint);
+//    }
 
     private void setButtonListeners() {
         mButtonFirst.setOnClickListener(new View.OnClickListener() {
@@ -94,8 +105,9 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Fragment fragment = new AppointmentsHomeFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-                transaction.replace(R.id.contentFragment, fragment);
+                transaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right,
+                        R.animator.slide_in_to_right, R.animator.slide_out_to_left);
+                transaction.replace(R.id.contentFragment, fragment).addToBackStack(TAG);
                 transaction.commit();
             }
         });
@@ -145,55 +157,6 @@ public class HomeFragment extends Fragment {
         mButtonSixth     = (IconButton)    getView().findViewById(R.id.profile_button_sixth);
     }
 
-    private class GetProfileTask extends AsyncGetJson {
-        public GetProfileTask(Context context, String tag) {
-            super(context, tag);
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject json) {
-            try {
-                if (json.getBoolean("success")) {
-                    JSONObject patient = json.getJSONObject("patient");
-                    mPatient = Patient.getInstance(
-                            patient.getString("id"),
-                            patient.getString("first_name"),
-                            patient.getString("last_name"),
-                            patient.getString("email"),
-                            patient.getString("home_phone"),
-                            patient.getString("work_phone"),
-                            patient.getString("mobile_phone"),
-                            patient.getString("avatar_medium_url"),
-                            patient.getString("avatar_thumb_url"),
-                            patient.getString("social_last_four"),
-                            patient.getString("birthday_form_format"),
-                            patient.getString("sex_humanize"),
-                            patient.getString("address1"),
-                            patient.getString("address2"),
-                            patient.getString("city"),
-                            patient.getString("state"),
-                            patient.getString("country"),
-                            patient.getString("zipcode"));
-                    mProfileName.setText(mPatient.getFullName());
-                    mProfileDob.setText("DOB: " + mPatient.getmBirthday());
-                    mProfileSex.setText(mPatient.getmSex());
-                    mProfileLocation.setText(mPatient.getLocation());
-                    getActivity().setTitle(mPatient.getFullName());
-                    //download image
-                    new DownloadImageTask(mProfileImage, TAG).execute(mPatient.getmAvatarMediumUrl());
-                }
-                else {
-                    Toast.makeText(this.context, json.getString("message"), Toast.LENGTH_LONG).show();
-                }
-            }
-            catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
-            finally {
-                super.onPostExecute(json);
-            }
-        }
-    }
 
 
 }
