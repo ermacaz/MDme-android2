@@ -18,11 +18,15 @@ import android.view.MenuItem;
 public class CheckinActivity extends AppCompatActivity {
 
     private final String TAG = "CheckinActivity";
+    private Patient mPatient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkin);
+        mPatient = Patient.getmInstance();
+        setPatientInfo();
+        getCheckinInfo();
     }
 
     @Override
@@ -45,5 +49,9 @@ public class CheckinActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setPatientInfo() {
+
     }
 }

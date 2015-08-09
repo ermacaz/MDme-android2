@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="desc_qr_code">Check-in QR code</string>
+    <string name="scan_to_checkin">Scan to Check-In</string>
+</resources>
