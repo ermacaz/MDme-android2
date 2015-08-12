@@ -1,5 +1,7 @@
 package com.dynamicmedicine.mdme.asyncJson;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import com.dynamicmedicine.mdme.WebserverUrl;
 
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
@@ -23,8 +26,11 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap>  {
 
     ImageView bmImage;
     private String TAG;
-    public DownloadImageTask(ImageView bmImage, String tag) {
+    private Context context;
+
+    public DownloadImageTask(ImageView bmImage, String tag, Context context) {
         this.bmImage = bmImage;
+        this.context = context;
         this.TAG = tag;
     }
 
@@ -32,15 +38,34 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap>  {
         String urlDisplay = WebserverUrl.DOMAIN + urls[0];
         Bitmap picture = null;
         try {
-            InputStream in = new URL(urlDisplay).openStream();
-            picture = BitmapFactory.decodeStream(in);
-            in.close();
+            SharedPreferences preferences = context.getSharedPreferences("CurrentUser", context.MODE_PRIVATE);
+            String auth = "Bearer " + preferences.getString("ApiToken", "");
+            HttpURLConnection connection = (HttpURLConnection) new URL(urlDisplay).openConnection();
+            connection.setRequestProperty("Authorization", auth);
+            connection.setRequestMethod("GET");
+            picture = BitmapFactory.decodeStream(connection.getInputStream());
         }
         catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
         return picture;
     }
+//    protected Bitmap doInBackground(String... urls) {
+//        String urlDisplay = WebserverUrl.DOMAIN + urls[0];
+//        Bitmap picture = null;
+//        try {
+//            SharedPreferences preferences = context.getSharedPreferences("CurrentUser", context.MODE_PRIVATE);
+//            String auth = "Bearer " + preferences.getString("ApiToken", "");
+//            InputStream in = new URL(urlDisplay).openStream();
+//            picture = BitmapFactory.decodeStream(in);
+//            in.close();
+//        }
+//        catch (Exception e) {
+//            Log.e(TAG, e.getMessage());
+//        }
+//        return picture;
+//    }
+
 
     protected void onPostExecute(Bitmap result) {
         bmImage.setImageBitmap(result);

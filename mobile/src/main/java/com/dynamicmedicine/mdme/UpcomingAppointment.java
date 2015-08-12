@@ -134,6 +134,10 @@ public class UpcomingAppointment {
         this.mPercent = mPercent;
     }
 
+    public String getQrCodeUrl() {
+        return "/api/mobile/patients/" + this.mId + "/upcoming-appointment-qrcode.png";
+    }
+
     private static class GetUpcomingAppointmentTask extends AsyncGetJson {
         public GetUpcomingAppointmentTask(Context context, String tag) { super(context, tag);}
 

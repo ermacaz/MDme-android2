@@ -8,13 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        >
 
         <!--gray header-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/MDme_lightgray"
+            android:background="@color/MDme_headerGray"
             android:orientation="horizontal"
             android:layout_gravity="center_vertical"
             android:padding="16dp">
@@ -24,32 +25,30 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/missing"
                 android:layout_gravity="center_vertical"
-                android:layout_weight=".3"
+                android:layout_weight=".2"
                 android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginRight="32dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:contentDescription="@string/desc_avatar"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="start"
-                android:layout_weight=".6">
+                android:layout_weight=".8">
                 <TextView
                     android:id="@+id/header_full_name"
                     android:layout_marginBottom="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/MDme_primary"
-                    android:textSize="6pt"
+                    android:textSize="8pt"
                     />
                 <TextView
                     android:id="@+id/header_birthday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/MDme_primary"
-                    android:textSize="6pt"/>
+                    android:textSize="8pt"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -58,16 +57,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="24dp">
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/MDme_lightgray">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/appointment_details"
-                android:textSize="8pt"/>
+                android:textSize="8pt"
+                android:layout_marginBottom="4dp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -77,8 +78,22 @@
                     android:id="@+id/checkin_appointment_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/time"/>
+                    android:textSize="6pt"
+                    android:text="@string/time"
+                    android:layout_marginBottom="4dp"/>
             </LinearLayout>
+            <TextView
+                android:id="@+id/checkin_appointment_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="6pt"
+                android:layout_marginBottom="4dp"/>
+            <TextView
+                android:id="@+id/checkin_doctor_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="6pt"
+                android:layout_marginBottom="4dp"/>
 
         </LinearLayout>
         <!--qrcode area-->
@@ -86,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:layout_margin="32dp">
 
             <ImageView
@@ -98,6 +113,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/MDme_accent"
                 android:text="@string/scan_to_checkin"/>
 
         </LinearLayout>

@@ -4,6 +4,7 @@ package com.dynamicmedicine.mdme;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -88,7 +89,7 @@ public class HomeFragment extends Fragment {
         mProfileLocation.setText(mPatient.getLocation());
         getActivity().setTitle(mPatient.getFullName());
         //download image
-        new DownloadImageTask(mProfileImage, TAG).execute(mPatient.getmAvatarMediumUrl());
+        new DownloadImageTask(mProfileImage, TAG, getActivity()).execute(mPatient.getmAvatarMediumUrl());
     }
 
 
@@ -138,7 +139,8 @@ public class HomeFragment extends Fragment {
         mButtonSixth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity().getApplicationContext(), CheckinActivity.class);
+                startActivity(intent);
             }
         });
     }

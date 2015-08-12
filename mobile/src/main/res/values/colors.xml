@@ -4,6 +4,7 @@
     <color name="MDme_accent">#00E5FF</color>
     <color name="MDme_text_primary">#FFAAFF</color>
     <color name="MDme_lightgray">#BDBDBD</color>
+    <color name="MDme_headerGray">#e6e6e6</color>
     <color name="MDme_nav_first">#F5F5F5</color>
     <color name="MDme_nav_second">#E0E0E0</color>
     <color name="MDme_nav_third">#BDBDBD</color>
