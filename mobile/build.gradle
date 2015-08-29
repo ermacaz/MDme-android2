@@ -3,13 +3,13 @@ apply plugin: 'com.android.databinding'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "com.dynamicmedicine.mdme"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "0.0.1"
     }
@@ -24,7 +24,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     wearApp project(':wear')
-    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'com.google.android.gms:play-services:7.5.0'
     compile 'com.joanzapata.android:android-iconify:1.0.9'
 //    compile files('libs/gson-2.3.1.jar')

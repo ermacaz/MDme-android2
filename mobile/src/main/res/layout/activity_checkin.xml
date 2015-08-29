@@ -102,10 +102,9 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical"
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="64dp"
-            android:paddingStart="64dp"
-            android:paddingBottom="12dp">
+            android:gravity="center_horizontal"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp">
 
             <ImageView
                 android:layout_marginBottom="8dp"
