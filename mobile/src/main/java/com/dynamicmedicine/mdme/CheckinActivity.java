@@ -94,12 +94,12 @@ public class CheckinActivity extends Activity {
         TextView apptTimeTextView = (TextView)findViewById(R.id.checkin_appointment_time);
         SpannableString timeText = new SpannableString("Time: " + mUpcomingAppointment.getmTime());
         timeText.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 5, 0);
-        timeText.setSpan(new ForegroundColorSpan(Color.GREEN), 6, 11, 0);
+        timeText.setSpan(new ForegroundColorSpan(Color.parseColor("#008000")), 6, 11, 0);
         apptTimeTextView.setText(timeText, TextView.BufferType.SPANNABLE);
         TextView apptLocationTextView = (TextView)findViewById(R.id.checkin_appointment_location);
         apptLocationTextView.setText(mUpcomingAppointment.getmClinicAddress());
         TextView apptDoctorName = (TextView)findViewById(R.id.checkin_doctor_name);
-        apptDoctorName.setText(mUpcomingAppointment.getmDoctorName());
+        apptDoctorName.setText("Physician:  " + mUpcomingAppointment.getmDoctorName());
         //qr code stuff
         ImageView qrCodeImageView = (ImageView)findViewById(R.id.checkin_qr_code);
         new DownloadImageTask(qrCodeImageView, TAG, this).execute(mUpcomingAppointment.getQrCodeUrl());

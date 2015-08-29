@@ -115,7 +115,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/MDme_accent"
+                android:textColor="@color/MDme_primaryDark"
                 android:text="@string/scan_to_checkin"
                 android:textSize="12pt"/>
 
