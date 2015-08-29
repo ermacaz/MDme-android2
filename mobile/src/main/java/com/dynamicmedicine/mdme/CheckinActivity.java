@@ -1,6 +1,7 @@
 package com.dynamicmedicine.mdme;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.graphics.Color;
 import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
@@ -36,10 +37,6 @@ public class CheckinActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkin);
-//        mPatient = Patient.getInstance(this);
-//        mUpcomingAppointment = UpcomingAppointment.getInstance(this);
-//        setPatientInfo();
-//        setAppointmentInfo();
     }
 
     @Override
@@ -52,6 +49,7 @@ public class CheckinActivity extends Activity {
         if (mUpcomingAppointment == null) {
             mUpcomingAppointment = UpcomingAppointment.getInstance(this);
             setAppointmentInfo();
+            editFragmentBackground();
         }
     }
 
@@ -75,6 +73,11 @@ public class CheckinActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void editFragmentBackground() {
+        Fragment hf = getFragmentManager().findFragmentById(R.id.upcoming_appointment_fragment);
+        hf.getView().setBackgroundColor(Color.WHITE);
     }
 
     private void setPatientInfo() {

@@ -11,4 +11,5 @@
     <color name="MDme_progress_bar_start">#62c462</color>
     <color name="MDme_progress_bar_middle">#fffcefbb</color>
     <color name="MDme_progress_bar_end">#ee5f5b</color>
+    <color name="white">#FFFFFF</color>
 </resources>

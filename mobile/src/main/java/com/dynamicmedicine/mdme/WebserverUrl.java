@@ -10,8 +10,8 @@ package com.dynamicmedicine.mdme;
  */
 public class WebserverUrl {
 //    public static final String DOMAIN = "http://www.mdme.wk:3000"; //work 10.5.3.84
-//    public static final String DOMAIN = "http://www.mdme.ak:3000"; //home wifi
-    public static final String DOMAIN = "http://www.mdme.sk:3001"; //home ethernet
+//    public static final String DOMAIN = "http://www.mdme.ak:3000";
+    public static final String DOMAIN = "http://www.mdme.sk:3001"; //home wifi
     public static final String ROOT_URL = DOMAIN + "/api/mobile";
     //public static final String ROOT_URL = DOMAIN + "/api/mobile";  //production
     //public static final String ROOT_URL = DOMAIN + "/api/mobile"; //usb tether

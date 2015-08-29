@@ -9,6 +9,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal"
+        android:background="@color/white"
         >
 
         <!--gray header-->
@@ -59,7 +60,6 @@
             android:orientation="vertical"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:layout_marginBottom="8dp"
             android:background="@color/MDme_lightgray">
 
             <TextView
@@ -100,12 +100,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical"
-            android:layout_gravity="center"
-            android:layout_margin="32dp">
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="64dp"
+            android:paddingStart="64dp"
+            android:paddingBottom="12dp">
 
             <ImageView
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:id="@+id/checkin_qr_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,7 +117,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/MDme_accent"
-                android:text="@string/scan_to_checkin"/>
+                android:text="@string/scan_to_checkin"
+                android:textSize="12pt"/>
 
         </LinearLayout>
 
@@ -125,7 +129,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="24dp"
+        android:paddingBottom="24dp"
         android:id="@+id/upcoming_appointment_fragment"
         android:name="com.dynamicmedicine.mdme.UpcomingAppointmentFragment"/>
 

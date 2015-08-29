@@ -56,6 +56,7 @@ public class HomeFragment extends Fragment {
     private IconButton mButtonFifth;
     private IconButton mButtonSixth;
     private Patient    mPatient;
+    private UpcomingAppointment mAppointment;
 
 
     public HomeFragment() {
@@ -78,6 +79,7 @@ public class HomeFragment extends Fragment {
         attachViewWidgets();
         setButtonListeners();
         mPatient = Patient.getInstance(getActivity());
+        mAppointment = UpcomingAppointment.getInstance(getActivity());
         applyProfileToViews();
         super.onViewCreated(view, savedInstanceState);
     }
@@ -139,8 +141,13 @@ public class HomeFragment extends Fragment {
         mButtonSixth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), CheckinActivity.class);
-                startActivity(intent);
+                if (mAppointment != null) {
+                    Intent intent = new Intent(getActivity().getApplicationContext(), CheckinActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getActivity(), "No upcoming appointment available.", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
