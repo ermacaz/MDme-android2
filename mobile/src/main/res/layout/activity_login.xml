@@ -2,11 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:gravity="center_horizontal"
     android:orientation="vertical" android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@drawable/login_background"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" tools:context=".LoginActivity">
 
     <ImageView
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="48dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
@@ -16,14 +19,17 @@
     <EditText android:id="@+id/userEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:padding="16dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
+        android:background="@color/MDme_loginInputBackground"
         android:text="user@example.com"
-        android:textColor="@color/MDme_primary"
-        android:textColorHint="@color/MDme_primary">
+        android:textColor="@color/white"
+        android:textColorHint="@color/white">
         <requestFocus/>
     </EditText>
 
@@ -31,12 +37,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:background="@color/MDme_loginInputBackground"
         android:hint="@string/password"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
         android:text="Qwerty123!"
         android:inputType="textPassword"
         android:padding="16dp"
-        android:textColor="@color/MDme_primary"
-        android:textColorHint="@color/MDme_primary"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:linksClickable="false"
         android:selectAllOnFocus="false" />
 
@@ -45,9 +54,27 @@
         android:layout_width="match_parent"
         android:layout_height="59dp"
         android:padding="8dp"
-        android:layout_marginTop="48dp"
-        android:onClick="login"
+        android:layout_marginTop="36dp"
+        android:onClick="login2"
         android:text="@string/login"
         android:textColor="#ffffffff"
-        android:background="#ff3ec3d3" />
+        android:background="#CE7270"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="36dp"
+        android:paddingBottom="24dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="10pt"
+        android:text="Forgot password?"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="10pt"
+        android:text="New Here? Sign up"/>
 </LinearLayout>

@@ -3,10 +3,17 @@
 
 <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!--set color of actionbar and accent-->
+        set color of actionbar and accent
         <item name="colorPrimary">@color/MDme_primary</item>
         <item name="colorPrimaryDark">@color/MDme_primaryDark</item>
         <item name="colorAccent">@color/MDme_accent</item>
         <item name="actionMenuTextColor">@color/MDme_text_primary</item>
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+        <!--<item name="colorPrimaryDark">@android:color/transparent</item>-->
+        <!--<item name="colorPrimary">@color/MDme_primary</item>-->
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
     </style>
 </resources>

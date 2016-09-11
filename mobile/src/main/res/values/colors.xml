@@ -1,5 +1,5 @@
 <resources>
-    <color name="MDme_primary">#00BCD4</color>
+    <color name="MDme_primary">#3fc3d5</color>
     <color name="MDme_primaryDark">#0097A7</color>
     <color name="MDme_accent">#00E5FF</color>
     <color name="MDme_text_primary">#FFAAFF</color>
@@ -11,5 +11,6 @@
     <color name="MDme_progress_bar_start">#62c462</color>
     <color name="MDme_progress_bar_middle">#fffcefbb</color>
     <color name="MDme_progress_bar_end">#ee5f5b</color>
+    <color name="MDme_loginInputBackground">#a484d9d7</color>
     <color name="white">#FFFFFF</color>
 </resources>

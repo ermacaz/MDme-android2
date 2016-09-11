@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.android.databinding'
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.android.databinding'
+//apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 24
+    buildToolsVersion '24.0.2'
 
     defaultConfig {
         applicationId "com.dynamicmedicine.mdme"
-        minSdkVersion 15
-        targetSdkVersion 23
+        minSdkVersion 19
+        targetSdkVersion 24
         versionCode 1
         versionName "0.0.1"
     }
@@ -23,9 +23,13 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    wearApp project(':wear')
-    compile 'com.android.support:appcompat-v7:23.0.0'
-    compile 'com.google.android.gms:play-services:7.5.0'
+//    wearApp project(':wear')
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.google.android.gms:play-services-gcm:9.4.0'
+    compile 'com.google.android.gms:play-services-maps:9.4.0'
+    compile 'com.google.android.gms:play-services-location:9.4.0'
+//    compile 'com.google.android.gms:play-services:9.4.0'
     compile 'com.joanzapata.android:android-iconify:1.0.9'
-//    compile files('libs/gson-2.3.1.jar')
+    compile 'com.loopj.android:android-async-http:1.4.9'
 }
+apply plugin: 'com.google.gms.google-services'

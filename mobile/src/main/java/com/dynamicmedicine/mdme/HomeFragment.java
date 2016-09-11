@@ -75,12 +75,12 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mPreferences = getActivity().getSharedPreferences("CurrentUser", Context.MODE_PRIVATE);
         String userId = mPreferences.getString("patient_id", "-1");
-        profileApiEndpoint = "/patients/" + userId + ".json";
+//        profileApiEndpoint = "/patients/" + userId + ".json";
         attachViewWidgets();
         setButtonListeners();
-        mPatient = Patient.getInstance(getActivity());
-        mAppointment = UpcomingAppointment.getInstance(getActivity());
-        applyProfileToViews();
+//        mPatient = Patient.getInstance(getActivity());
+//        mAppointment = UpcomingAppointment.getInstance(getActivity());
+//        applyProfileToViews();
         super.onViewCreated(view, savedInstanceState);
     }
 
