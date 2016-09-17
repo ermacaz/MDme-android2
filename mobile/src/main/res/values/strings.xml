@@ -22,4 +22,12 @@
     <string name="time">Time:</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_checkin">My Appointment Check-In</string>
+    <string name="title_activity_home_tabbed">HomeTabbedActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_home_nav_activitiy">HomeNavActivitiy</string>
+    <string name="title_activity_home_nav">HomeNavActivity</string>
+    <string name="title_activity_appointment_creator">AppointmentCreatorActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

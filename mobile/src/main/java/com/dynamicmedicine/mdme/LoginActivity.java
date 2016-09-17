@@ -22,9 +22,15 @@ import android.widget.Toast;
 import com.dynamicmedicine.mdme.asyncJson.AsyncPostJson;
 import com.loopj.android.http.*;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,11 +75,21 @@ public class LoginActivity extends Activity {
             Toast.makeText(this, "Fields cannot be blank", Toast.LENGTH_LONG).show();
         }
 
-        AsyncHttpClient client = new AsyncHttpClient();
+        String clinic_timestamp = "";
+        try {
+            ClinicDatabaseHandler clinic_db = new ClinicDatabaseHandler(LoginActivity.this);
+            DateTime latest_update = clinic_db.getLatestUpdateTime();
+            DateTimeFormatter isoFormat = ISODateTimeFormat.dateTime();
+            clinic_timestamp =latest_update.toString(isoFormat);
+        } catch (Exception update_time_e) {
+           Log.e(TAG, update_time_e.getMessage());
+        }
+
+        final AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("email", mUserEmail);
         params.put("password", mUserPassword);
-
+        params.put("clinic_update_time", clinic_timestamp);
         MdmeRestClient.post(LOGIN_API_ENDPOINT, params, new JsonHttpResponseHandler() {
 
             @Override
@@ -91,8 +107,57 @@ public class LoginActivity extends Activity {
                         editor.putString("patient_id", response.getJSONObject("data").getString("user_id"));
                         editor.apply();
 
+                        //save clinics
+                        JSONArray clinics = response.getJSONObject("data").getJSONArray("clinics");
+                        if (clinics.length() > 0) { //only returns clinics if they have updated
+                            ClinicDatabaseHandler clinic_db = new ClinicDatabaseHandler(LoginActivity.this);
+                            for (int i = 0; i < clinics.length(); i++) {
+                                Clinic clinic = new Clinic();
+                                JSONObject jsonClinic = clinics.getJSONObject(i);
+                                if (!jsonClinic.isNull("id"))
+                                    clinic.setId(jsonClinic.getInt("id"));
+                                if (!jsonClinic.isNull("name"))
+                                    clinic.setName(jsonClinic.getString("name"));
+                                if (!jsonClinic.isNull("address"))
+                                    clinic.setAddress(jsonClinic.getString("address"));
+                                if (!jsonClinic.isNull("city"))
+                                    clinic.setCity(jsonClinic.getString("city"));
+                                if (!jsonClinic.isNull("state"))
+                                    clinic.setState(jsonClinic.getString("state"));
+                                if (!jsonClinic.isNull("country"))
+                                    clinic.setCountry(jsonClinic.getString("country"));
+                                if (!jsonClinic.isNull("zipcode"))
+                                    clinic.setZipcode(jsonClinic.getString("zipcode"));
+                                if (!jsonClinic.isNull("phone_number"))
+                                    clinic.setPhoneNumber(jsonClinic.getString("phone_number"));
+                                if (!jsonClinic.isNull("fax_number"))
+                                    clinic.setFaxNumber(jsonClinic.getString("fax_number"));
+                                if (!jsonClinic.isNull("ne_latitude"))
+                                    clinic.setNeLatitude(jsonClinic.getDouble("ne_latitude"));
+                                if (!jsonClinic.isNull("latitude"))
+                                    clinic.setLatitude(jsonClinic.getDouble("latitude"));
+                                if (!jsonClinic.isNull("sw_latitude"))
+                                    clinic.setSwLatitude(jsonClinic.getDouble("sw_latitude"));
+                                if (!jsonClinic.isNull("longitude"))
+                                    clinic.setLatitude(jsonClinic.getDouble("longitude"));
+                                if (!jsonClinic.isNull("ne_longitude"))
+                                    clinic.setNeLatitude(jsonClinic.getDouble("ne_longitude"));
+                                if (!jsonClinic.isNull("sw_longitude"))
+                                    clinic.setSwLatitude(jsonClinic.getDouble("sw_longitude"));
+                                if (!jsonClinic.isNull("updated_at"))
+                                    clinic.setUpdated_at(DateTime.parse(jsonClinic.getString("updated_at")));
+
+                                if (clinic_db.clinicExists(String.valueOf(clinic.getId()))) {
+                                    clinic_db.updateClinic(clinic);
+                                } else {
+                                    clinic_db.addClinic(clinic);
+                                }
+
+                            }
+                        }
+
                         //launch activity here
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), HomeNavActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -109,7 +174,8 @@ public class LoginActivity extends Activity {
             public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
                 try {
                     Toast.makeText(LoginActivity.this, response.getString("message"), Toast.LENGTH_LONG).show();
-                } catch (JSONException je) {
+                } catch (Exception je) {
+                    Toast.makeText(LoginActivity.this, je.getMessage(), Toast.LENGTH_LONG).show();
                     Log.e(TAG, je.getMessage());
                 }
             }
