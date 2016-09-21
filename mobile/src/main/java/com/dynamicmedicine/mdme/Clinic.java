@@ -1,6 +1,7 @@
 package com.dynamicmedicine.mdme;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 
 import java.io.Serializable;
 
@@ -30,13 +31,33 @@ public class Clinic implements Serializable {
     private double longitude;
     private double neLongitude;
     private double swLongitude;
-    private DateTime updated_at;
+    private DateTime updatedAt;
+    private boolean isOpenSunday;
+    private LocalTime sundayOpenTime;
+    private LocalTime sundayCloseTime;
+    private boolean isOpenMonday;
+    private LocalTime mondayOpenTime;
+    private LocalTime mondayCloseTime;
+    private boolean isOpenTuesday;
+    private LocalTime tuesdayOpenTime;
+    private LocalTime tuesdayCloseTime;
+    private boolean isOpenWednesday;
+    private LocalTime wednesdayOpenTime;
+    private LocalTime wednesdayCloseTime;
+    private boolean isOpenThursday;
+    private LocalTime thursdayOpenTime;
+    private LocalTime thursdayCloseTime;
+    private boolean isOpenFriday;
+    private LocalTime fridayOpenTime;
+    private LocalTime fridayCloseTime;
+    private boolean isOpenSaturday;
+    private LocalTime saturdayOpenTime;
+    private LocalTime saturdayCloseTime;
 
     public Clinic() {
-
     }
 
-    public Clinic(int id, String name, String address, String city, String state, String country, String zipcode, String phoneNumber, String fax_number, double latitude, double ne_latitude, double sw_latitude, double longitude, double ne_longitude, double sw_longitude, DateTime updated_at) {
+    public Clinic(int id, String name, String address, String city, String state, String country, String zipcode, String phoneNumber, String fax_number, double latitude, double ne_latitude, double sw_latitude, double longitude, double ne_longitude, double sw_longitude, DateTime updatedAt) {
         this.id  = id;
         this.name = name;
         this.address = address;
@@ -52,7 +73,7 @@ public class Clinic implements Serializable {
         this.longitude = longitude;
         this.neLongitude = ne_longitude;
         this.swLongitude = sw_longitude;
-        this.updated_at = updated_at;
+        this.updatedAt = updatedAt;
     }
 
 
@@ -98,7 +119,7 @@ public class Clinic implements Serializable {
         return address;
     }
 
-    public void setAddress(String address1) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -156,16 +177,21 @@ public class Clinic implements Serializable {
 
     public double getNeLongitude() { return neLongitude; }
 
-    public void setNeLongitude(double neLongitude) { this.neLongitude = neLongitude; }
+    public void setNeLongitude(double neLongitude) {
+        this.neLongitude = neLongitude;
+    }
 
     public double getSwLatitude() { return swLatitude; }
 
-    public void setSwLatitude(double swLatitude) { this.swLatitude = swLatitude;
+    public void setSwLatitude(double swLatitude) {
+        this.swLatitude = swLatitude;
     }
 
     public double getSwLongitude() { return swLongitude; }
 
-    public void setSwLongitude(double swLongitude) { this.swLongitude = swLongitude; }
+    public void setSwLongitude(double swLongitude) {
+        this.swLongitude = swLongitude;
+    }
 
     public double getLongitude() {
         return longitude;
@@ -183,12 +209,180 @@ public class Clinic implements Serializable {
         this.latitude = latitude;
     }
 
-    public DateTime getUpdated_at() {
-        return updated_at;
+    public DateTime getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(DateTime updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(DateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public boolean isOpenSunday() {
+        return isOpenSunday;
+    }
+
+    public void setOpenSunday(boolean openSunday) {
+        isOpenSunday = openSunday;
+    }
+
+    public LocalTime getSundayOpenTime() {
+        return sundayOpenTime;
+    }
+
+    public void setSundayOpenTime(LocalTime sundayOpenTime) {
+        this.sundayOpenTime = sundayOpenTime;
+    }
+
+    public LocalTime getSundayCloseTime() {
+        return sundayCloseTime;
+    }
+
+    public void setSundayCloseTime(LocalTime sundayCloseTime) {
+        this.sundayCloseTime = sundayCloseTime;
+    }
+
+    public boolean isOpenMonday() {
+        return isOpenMonday;
+    }
+
+    public void setOpenMonday(boolean openMonday) {
+        isOpenMonday = openMonday;
+    }
+
+    public LocalTime getMondayOpenTime() {
+        return mondayOpenTime;
+    }
+
+    public void setMondayOpenTime(LocalTime mondayOpenTime) {
+        this.mondayOpenTime = mondayOpenTime;
+    }
+
+    public LocalTime getMondayCloseTime() {
+        return mondayCloseTime;
+    }
+
+    public void setMondayCloseTime(LocalTime mondayCloseTime) {
+        this.mondayCloseTime = mondayCloseTime;
+    }
+
+    public boolean isOpenTuesday() {
+        return isOpenTuesday;
+    }
+
+    public void setOpenTuesday(boolean openTuesday) {
+        isOpenTuesday = openTuesday;
+    }
+
+    public LocalTime getTuesdayOpenTime() {
+        return tuesdayOpenTime;
+    }
+
+    public void setTuesdayOpenTime(LocalTime tuesdayOpenTime) {
+        this.tuesdayOpenTime = tuesdayOpenTime;
+    }
+
+    public LocalTime getTuesdayCloseTime() {
+        return tuesdayCloseTime;
+    }
+
+    public void setTuesdayCloseTime(LocalTime tuesdayCloseTime) {
+        this.tuesdayCloseTime = tuesdayCloseTime;
+    }
+
+    public boolean isOpenWednesday() {
+        return isOpenWednesday;
+    }
+
+    public void setOpenWednesday(boolean openWednesday) {
+        isOpenWednesday = openWednesday;
+    }
+
+    public LocalTime getWednesdayOpenTime() {
+        return wednesdayOpenTime;
+    }
+
+    public void setWednesdayOpenTime(LocalTime wednesdayOpenTime) {
+        this.wednesdayOpenTime = wednesdayOpenTime;
+    }
+
+    public LocalTime getWednesdayCloseTime() {
+        return wednesdayCloseTime;
+    }
+
+    public void setWednesdayCloseTime(LocalTime wednesdayCloseTime) {
+        this.wednesdayCloseTime = wednesdayCloseTime;
+    }
+
+    public boolean isOpenThursday() {
+        return isOpenThursday;
+    }
+
+    public void setOpenThursday(boolean openThursday) {
+        isOpenThursday = openThursday;
+    }
+
+    public LocalTime getThursdayOpenTime() {
+        return thursdayOpenTime;
+    }
+
+    public void setThursdayOpenTime(LocalTime thursdayOpenTime) {
+        this.thursdayOpenTime = thursdayOpenTime;
+    }
+
+    public LocalTime getThursdayCloseTime() {
+        return thursdayCloseTime;
+    }
+
+    public void setThursdayCloseTime(LocalTime thursdayCloseTime) {
+        this.thursdayCloseTime = thursdayCloseTime;
+    }
+
+    public boolean isOpenFriday() {
+        return isOpenFriday;
+    }
+
+    public void setOpenFriday(boolean openFriday) {
+        isOpenFriday = openFriday;
+    }
+
+    public LocalTime getFridayOpenTime() {
+        return fridayOpenTime;
+    }
+
+    public void setFridayOpenTime(LocalTime fridayOpenTime) {
+        this.fridayOpenTime = fridayOpenTime;
+    }
+
+    public LocalTime getFridayCloseTime() {
+        return fridayCloseTime;
+    }
+
+    public void setFridayCloseTime(LocalTime fridayCloseTime) {
+        this.fridayCloseTime = fridayCloseTime;
+    }
+
+    public boolean isOpenSaturday() {
+        return isOpenSaturday;
+    }
+
+    public void setOpenSaturday(boolean openSaturday) {
+        isOpenSaturday = openSaturday;
+    }
+
+    public LocalTime getSaturdayOpenTime() {
+        return saturdayOpenTime;
+    }
+
+    public void setSaturdayOpenTime(LocalTime saturdayOpenTime) {
+        this.saturdayOpenTime = saturdayOpenTime;
+    }
+
+    public LocalTime getSaturdayCloseTime() {
+        return saturdayCloseTime;
+    }
+
+    public void setSaturdayCloseTime(LocalTime saturdayCloseTime) {
+        this.saturdayCloseTime = saturdayCloseTime;
     }
 }
 

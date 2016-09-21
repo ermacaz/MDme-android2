@@ -28,6 +28,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONArray;
@@ -109,6 +110,7 @@ public class LoginActivity extends Activity {
 
                         //save clinics
                         JSONArray clinics = response.getJSONObject("data").getJSONArray("clinics");
+                        DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("h:mm aa");
                         if (clinics.length() > 0) { //only returns clinics if they have updated
                             ClinicDatabaseHandler clinic_db = new ClinicDatabaseHandler(LoginActivity.this);
                             for (int i = 0; i < clinics.length(); i++) {
@@ -118,8 +120,8 @@ public class LoginActivity extends Activity {
                                     clinic.setId(jsonClinic.getInt("id"));
                                 if (!jsonClinic.isNull("name"))
                                     clinic.setName(jsonClinic.getString("name"));
-                                if (!jsonClinic.isNull("address"))
-                                    clinic.setAddress(jsonClinic.getString("address"));
+                                if (!jsonClinic.isNull("address_for_mobile"))
+                                    clinic.setAddress(jsonClinic.getString("address_for_mobile"));
                                 if (!jsonClinic.isNull("city"))
                                     clinic.setCity(jsonClinic.getString("city"));
                                 if (!jsonClinic.isNull("state"))
@@ -141,19 +143,63 @@ public class LoginActivity extends Activity {
                                 if (!jsonClinic.isNull("longitude"))
                                     clinic.setLatitude(jsonClinic.getDouble("longitude"));
                                 if (!jsonClinic.isNull("ne_longitude"))
-                                    clinic.setNeLatitude(jsonClinic.getDouble("ne_longitude"));
+                                    clinic.setNeLongitude(jsonClinic.getDouble("ne_longitude"));
                                 if (!jsonClinic.isNull("sw_longitude"))
-                                    clinic.setSwLatitude(jsonClinic.getDouble("sw_longitude"));
+                                    clinic.setSwLongitude(jsonClinic.getDouble("sw_longitude"));
                                 if (!jsonClinic.isNull("updated_at"))
-                                    clinic.setUpdated_at(DateTime.parse(jsonClinic.getString("updated_at")));
+                                    clinic.setUpdatedAt(DateTime.parse(jsonClinic.getString("updated_at")));
+                                if (!jsonClinic.isNull("is_open_sunday"))
+                                    clinic.setOpenSunday(jsonClinic.getBoolean("is_open_sunday"));
+                                if (!jsonClinic.isNull("sunday_open_time"))
+                                    clinic.setSundayOpenTime(timeFormatter.parseLocalTime(jsonClinic.getString("sunday_open_time")));
+                                if (!jsonClinic.isNull("sunday_close_time"))
+                                    clinic.setSundayCloseTime(timeFormatter.parseLocalTime(jsonClinic.getString("sunday_close_time")));
+                                if (!jsonClinic.isNull("is_open_monday"))
+                                    clinic.setOpenMonday(jsonClinic.getBoolean("is_open_monday"));
+                                if (!jsonClinic.isNull("monday_open_time"))
+                                    clinic.setMondayOpenTime(timeFormatter.parseLocalTime(jsonClinic.getString("monday_open_time")));
+                                if (!jsonClinic.isNull("monday_close_time"))
+                                    clinic.setMondayCloseTime(timeFormatter.parseLocalTime(jsonClinic.getString("monday_close_time")));
+                                if (!jsonClinic.isNull("is_open_tuesday"))
+                                    clinic.setOpenTuesday(jsonClinic.getBoolean("is_open_tuesday"));
+                                if (!jsonClinic.isNull("tuesday_open_time"))
+                                    clinic.setTuesdayOpenTime(timeFormatter.parseLocalTime(jsonClinic.getString("tuesday_open_time")));
+                                if (!jsonClinic.isNull("tuesday_close_time"))
+                                    clinic.setTuesdayCloseTime(timeFormatter.parseLocalTime(jsonClinic.getString("tuesday_close_time")));
+                                if (!jsonClinic.isNull("is_open_wednesday"))
+                                    clinic.setOpenWednesday(jsonClinic.getBoolean("is_open_wednesday"));
+                                if (!jsonClinic.isNull("wednesday_open_time"))
+                                    clinic.setWednesdayOpenTime(timeFormatter.parseLocalTime(jsonClinic.getString("wednesday_open_time")));
+                                if (!jsonClinic.isNull("wednesday_close_time"))
+                                    clinic.setWednesdayCloseTime(timeFormatter.parseLocalTime(jsonClinic.getString("wednesday_close_time")));
+                                if (!jsonClinic.isNull("is_open_thursday"))
+                                    clinic.setOpenThursday(jsonClinic.getBoolean("is_open_thursday"));
+                                if (!jsonClinic.isNull("thursday_open_time"))
+                                    clinic.setThursdayOpenTime(timeFormatter.parseLocalTime(jsonClinic.getString("thursday_open_time")));
+                                if (!jsonClinic.isNull("thursday_close_time"))
+                                    clinic.setThursdayCloseTime(timeFormatter.parseLocalTime(jsonClinic.getString("thursday_close_time")));
+                                if (!jsonClinic.isNull("is_open_friday"))
+                                    clinic.setOpenFriday(jsonClinic.getBoolean("is_open_friday"));
+                                if (!jsonClinic.isNull("friday_open_time"))
+                                    clinic.setFridayOpenTime(timeFormatter.parseLocalTime(jsonClinic.getString("friday_open_time")));
+                                if (!jsonClinic.isNull("friday_close_time"))
+                                    clinic.setFridayCloseTime(timeFormatter.parseLocalTime(jsonClinic.getString("friday_close_time")));
+                                if (!jsonClinic.isNull("is_open_saturday"))
+                                    clinic.setOpenSaturday(jsonClinic.getBoolean("is_open_saturday"));
+                                if (!jsonClinic.isNull("saturday_open_time"))
+                                    clinic.setSaturdayOpenTime(timeFormatter.parseLocalTime(jsonClinic.getString("saturday_open_time")));
+                                if (!jsonClinic.isNull("saturday_close_time"))
+                                    clinic.setSaturdayCloseTime(timeFormatter.parseLocalTime(jsonClinic.getString("saturday_close_time")));
 
                                 if (clinic_db.clinicExists(String.valueOf(clinic.getId()))) {
                                     clinic_db.updateClinic(clinic);
                                 } else {
                                     clinic_db.addClinic(clinic);
                                 }
-
                             }
+                            Clinic test = clinic_db.getClinic(1);
+                            test.getId();
+                            clinic_db.close();
                         }
 
                         //launch activity here
@@ -167,6 +213,7 @@ public class LoginActivity extends Activity {
                 }
                 catch (Exception e) {
                     Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }
 
@@ -175,7 +222,7 @@ public class LoginActivity extends Activity {
                 try {
                     Toast.makeText(LoginActivity.this, response.getString("message"), Toast.LENGTH_LONG).show();
                 } catch (Exception je) {
-                    Toast.makeText(LoginActivity.this, je.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Unable to connect", Toast.LENGTH_LONG).show();
                     Log.e(TAG, je.getMessage());
                 }
             }
