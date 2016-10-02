@@ -25,32 +25,28 @@
             android:layout_weight="8"
             android:id="@+id/homeNavFragment"/>
 
-        <LinearLayout
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:layout_weight="2"
-            android:gravity="center_vertical"
-            android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_height="64dp">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Profile"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Appointment"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="My Appointments"/>
-        </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="64dp">
 
-
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Appointment"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Appointments"/>
+    </LinearLayout>
 
 </RelativeLayout>

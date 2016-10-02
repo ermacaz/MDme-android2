@@ -9,12 +9,20 @@ package com.dynamicmedicine.mdme;
  * Proprietary and confidential.
  */
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.loopj.android.http.*;
 
 public class MdmeRestClient {
     private static AsyncHttpClient client = new AsyncHttpClient();
 
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        client.get(getAbsoluteUrl(url), params, responseHandler);
+    }
+
+    public static void get(String url, RequestParams params, String token, AsyncHttpResponseHandler responseHandler) {
+        client.addHeader("Authorization", "token: " + token);
         client.get(getAbsoluteUrl(url), params, responseHandler);
     }
 

@@ -28,10 +28,10 @@ import java.util.List;
 public class ClinicDatabaseHandler extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "mdme";
+    private static final String DATABASE_NAME = "mdme_clinics";
 
     // Contacts table name
     private static final String TABLE_NAME = "clinics";
@@ -119,18 +119,26 @@ public class ClinicDatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT updated_at FROM clinics" +
                 "   ORDER BY updated_at DESC" +
                 "   LIMIT 1;",null);
-        cursor.moveToFirst();
-        DateTime latest = new DateTime(cursor.getLong(0));
-        cursor.close();
+        DateTime latest = null;
+        if (cursor != null) {
+            if (cursor.getCount() != 0) {
+                cursor.moveToFirst();
+                latest = new DateTime(cursor.getLong(0));
+            }
+            cursor.close();
+        }
+        db.close();
         return latest;
     }
 
-    public boolean clinicExists(String clinicId) {
+    public boolean clinicExists(int clinicId) {
+        String cId = String.valueOf(clinicId);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT 1 FROM " + TABLE_NAME + " WHERE _id = ?",
-                new String[] { clinicId });
+                new String[] { cId });
         boolean exists = (cursor.getCount() > 0);
         cursor.close();
+        db.close();
         return exists;
     }
 
@@ -305,6 +313,7 @@ public class ClinicDatabaseHandler extends SQLiteOpenHelper {
 
         // return clinic
         cursor.close();
+        db.close();
         return clinic;
     }
 
@@ -320,6 +329,7 @@ public class ClinicDatabaseHandler extends SQLiteOpenHelper {
                 clinics.add(clinic);
                 cursor.moveToNext();
             }
+            cursor.close();
         }
         return clinics;
 

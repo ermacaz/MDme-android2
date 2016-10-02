@@ -9,7 +9,7 @@
         <item name="colorAccent">@color/MDme_accent</item>
         <item name="actionMenuTextColor">@color/MDme_text_primary</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
         <!--<item name="windowActionBar">false</item>-->
         <!--<item name="windowNoTitle">true</item>-->
         <!--<item name="colorPrimaryDark">@android:color/transparent</item>-->

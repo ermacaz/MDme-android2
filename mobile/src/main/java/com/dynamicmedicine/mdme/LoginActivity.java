@@ -56,7 +56,13 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow(); // in Activity's onCreate() for instance
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        } else {
+            Window w = getWindow();
+//            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         setContentView(R.layout.activity_login);
 //        getWindow().setStatusBarColor(Color.TRANSPARENT);
@@ -69,28 +75,43 @@ public class LoginActivity extends Activity {
         mPasswordEditText.getBackground().setColorFilter(ContextCompat.getColor(LoginActivity.this, R.color.MDme_loginInputBackground), PorterDuff.Mode.SRC_ATOP);
     }
 
-    public void login2(View button) {
+    public void login(View button) {
         String mUserEmail = mEmailEditText.getText().toString();
         String mUserPassword = mPasswordEditText.getText().toString();
         if (mUserEmail.length() == 0 || mUserPassword.length() == 0) {
             Toast.makeText(this, "Fields cannot be blank", Toast.LENGTH_LONG).show();
         }
 
-        String clinic_timestamp = "";
+        String latestTimestamp = null;
         try {
-            ClinicDatabaseHandler clinic_db = new ClinicDatabaseHandler(LoginActivity.this);
-            DateTime latest_update = clinic_db.getLatestUpdateTime();
+            ClinicDatabaseHandler clinicDb = new ClinicDatabaseHandler(LoginActivity.this);
+            DateTime latestClinicUpdate = clinicDb.getLatestUpdateTime();
+            clinicDb.close();
+            ProcedureDatabaseHandler pdb = new ProcedureDatabaseHandler(LoginActivity.this);
+            DateTime latestProcedureUpdate = pdb.getLatestUpdateTime();
+            pdb.close();
+            DateTime latestUpdate = null;
+            if (latestClinicUpdate != null && latestProcedureUpdate != null) {
+                latestUpdate = (latestProcedureUpdate.isAfter(latestClinicUpdate) ? latestProcedureUpdate : latestClinicUpdate);
+            } else if (latestClinicUpdate != null) {
+                latestUpdate = latestClinicUpdate;
+            } else if (latestProcedureUpdate != null) {
+                latestUpdate = latestProcedureUpdate;
+            }
             DateTimeFormatter isoFormat = ISODateTimeFormat.dateTime();
-            clinic_timestamp =latest_update.toString(isoFormat);
-        } catch (Exception update_time_e) {
-           Log.e(TAG, update_time_e.getMessage());
+            if (latestUpdate != null) {
+                latestTimestamp = latestUpdate.toString(isoFormat);
+            }
+        } catch (Exception updateTimeE) {
+           Log.e(TAG, updateTimeE.getMessage());
         }
 
-        final AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("email", mUserEmail);
         params.put("password", mUserPassword);
-        params.put("clinic_update_time", clinic_timestamp);
+        if (latestTimestamp != null) {
+            params.put("clinic_update_time", latestTimestamp);
+        }
         MdmeRestClient.post(LOGIN_API_ENDPOINT, params, new JsonHttpResponseHandler() {
 
             @Override
@@ -112,7 +133,8 @@ public class LoginActivity extends Activity {
                         JSONArray clinics = response.getJSONObject("data").getJSONArray("clinics");
                         DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("h:mm aa");
                         if (clinics.length() > 0) { //only returns clinics if they have updated
-                            ClinicDatabaseHandler clinic_db = new ClinicDatabaseHandler(LoginActivity.this);
+                            ClinicDatabaseHandler clinicDb = new ClinicDatabaseHandler(LoginActivity.this);
+                            ProcedureDatabaseHandler procedureDb = new ProcedureDatabaseHandler(LoginActivity.this);
                             for (int i = 0; i < clinics.length(); i++) {
                                 Clinic clinic = new Clinic();
                                 JSONObject jsonClinic = clinics.getJSONObject(i);
@@ -120,8 +142,8 @@ public class LoginActivity extends Activity {
                                     clinic.setId(jsonClinic.getInt("id"));
                                 if (!jsonClinic.isNull("name"))
                                     clinic.setName(jsonClinic.getString("name"));
-                                if (!jsonClinic.isNull("address_for_mobile"))
-                                    clinic.setAddress(jsonClinic.getString("address_for_mobile"));
+                                if (!jsonClinic.isNull("address"))
+                                    clinic.setAddress(jsonClinic.getString("address"));
                                 if (!jsonClinic.isNull("city"))
                                     clinic.setCity(jsonClinic.getString("city"));
                                 if (!jsonClinic.isNull("state"))
@@ -191,15 +213,35 @@ public class LoginActivity extends Activity {
                                 if (!jsonClinic.isNull("saturday_close_time"))
                                     clinic.setSaturdayCloseTime(timeFormatter.parseLocalTime(jsonClinic.getString("saturday_close_time")));
 
-                                if (clinic_db.clinicExists(String.valueOf(clinic.getId()))) {
-                                    clinic_db.updateClinic(clinic);
+                                if (clinicDb.clinicExists(clinic.getId())) {
+                                    clinicDb.updateClinic(clinic);
                                 } else {
-                                    clinic_db.addClinic(clinic);
+                                    clinicDb.addClinic(clinic);
+                                }
+                                //get procedures
+                                JSONArray jsonProcedures = jsonClinic.getJSONArray("clinic_procedures");
+                                if (jsonProcedures.length() > 0) {
+                                    for (int j = 0; j < jsonProcedures.length(); j++) {
+                                        Procedure procedure = new Procedure();
+                                        JSONObject jsonProcedure = jsonProcedures.getJSONObject(j);
+                                        if (!jsonProcedure.isNull("id"))
+                                            procedure.setId(jsonProcedure.getInt("id"));
+                                        if (!jsonProcedure.isNull("name"))
+                                            procedure.setName(jsonProcedure.getString("name"));
+                                        if (!jsonProcedure.isNull("description"))
+                                            procedure.setDescription(jsonProcedure.getString("description"));
+                                        if (!jsonProcedure.isNull("duration"))
+                                            procedure.setDuration(jsonProcedure.getInt("duration"));
+                                        procedure.setClinicId(clinic.getId());
+                                        if (procedureDb.procedureExists(procedure.getId())) {
+                                            procedureDb.updateProcedure(procedure);
+                                        } else {
+                                            procedureDb.addProcedure(procedure);
+                                        }
+                                    }
                                 }
                             }
-                            Clinic test = clinic_db.getClinic(1);
-                            test.getId();
-                            clinic_db.close();
+                            clinicDb.close();
                         }
 
                         //launch activity here
@@ -232,63 +274,5 @@ public class LoginActivity extends Activity {
                 // called when request is retried
             }
         });
-    }
-
-
-
-    public void login(View button){
-        String mUserEmail = mEmailEditText.getText().toString();
-        String mUserPassword = mPasswordEditText.getText().toString();
-        if (mUserEmail.length() == 0 || mUserPassword.length() == 0) {
-            Toast.makeText(this, "Fields cannot be blank", Toast.LENGTH_LONG).show();
-        }
-        else {
-            JSONObject params = new JSONObject();
-            try {
-                params.put("email", mUserEmail);
-                params.put("password", mUserPassword);
-                LoginTask loginTask = new LoginTask(LoginActivity.this, TAG, params);
-                loginTask.setMessageLoading("Logging in...");
-                loginTask.execute(LOGIN_API_ENDPOINT);
-            }
-            catch (JSONException e) {
-                Log.e(TAG, e.getMessage());
-                Toast.makeText(this, "Error, please try again.", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    private class LoginTask extends AsyncPostJson {
-        public LoginTask(Context context, String tag, JSONObject params) {
-            super(context, tag, params);
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject json) {
-            try {
-                if (json.getBoolean("success")) {
-                    //login successfull
-                    SharedPreferences.Editor editor = mPreferences.edit();
-                    editor.putString("ApiToken", json.getJSONObject("data").getJSONObject("api_token").getString("token"));
-                    editor.putString("patient_id", json.getJSONObject("data").getString("user_id"));
-                    editor.apply();
-
-                    //launch activity here
-                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else {
-                    Toast.makeText(this.context, json.getString("message"), Toast.LENGTH_LONG).show();
-                }
-            }
-            catch (Exception e) {
-               Log.e(TAG, e.getMessage());
-            }
-            finally {
-                super.onPostExecute(json);
-            }
-        }
-
     }
 }

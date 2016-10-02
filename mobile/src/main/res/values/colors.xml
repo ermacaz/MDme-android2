@@ -13,4 +13,5 @@
     <color name="MDme_progress_bar_end">#ee5f5b</color>
     <color name="MDme_loginInputBackground">#a484d9d7</color>
     <color name="white">#FFFFFF</color>
+    <item name="transparent" type="color">#00FFFFFF</item>
 </resources>
