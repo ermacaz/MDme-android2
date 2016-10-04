@@ -1,6 +1,8 @@
 package com.dynamicmedicine.mdme;
 
 
+import org.joda.time.DateTime;
+
 /**
  * MDme Android application
  * Author:: ermacaz (maito:mattahamada@gmail.com)
@@ -16,6 +18,7 @@ public class Procedure {
     private String name;
     private String description;
     private int duration;
+    private DateTime updatedAt;
 
     public Procedure() {
 
@@ -63,5 +66,13 @@ public class Procedure {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public DateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(DateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

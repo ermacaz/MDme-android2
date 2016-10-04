@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
+
+import org.joda.time.DateTime;
 
 public class HomeNavActivity extends AppCompatActivity implements NewAppointmentHomeFragment.OnFragmentInteractionListener, NewAppointmentClinicFragment.OnNewAppointmentClinicFragmentInteractionListener {
 
@@ -47,5 +50,10 @@ public class HomeNavActivity extends AppCompatActivity implements NewAppointment
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void processAppointmentInfo(Clinic clinic, DateTime date, Procedure procedure) {
+        Toast.makeText(HomeNavActivity.this, "PROCESSAPPOTINFO", Toast.LENGTH_LONG).show();
     }
 }

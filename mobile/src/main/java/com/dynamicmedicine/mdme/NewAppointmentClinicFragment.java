@@ -58,6 +58,8 @@ public class NewAppointmentClinicFragment extends Fragment implements DatePicker
     private List<Procedure> mProcedures;
     private Spinner mProcedureSpinner;
     private Button mSelectDatesButton;
+    private DateTime mAppointmentDate;
+    private Procedure mAppointmentProcedure;
 
 
     public NewAppointmentClinicFragment() {
@@ -163,6 +165,7 @@ public class NewAppointmentClinicFragment extends Fragment implements DatePicker
                 }
                 Calendar[] disabledDays = weekends.toArray(new Calendar[weekends.size()]);
                 dpd.setDisabledDays(disabledDays);
+                dpd.setMinDate(Calendar.getInstance());
                 dpd.show(getFragmentManager(), "Datepickerdialog");
             }
         });
@@ -171,9 +174,9 @@ public class NewAppointmentClinicFragment extends Fragment implements DatePicker
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void initializeScheduling() {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.processAppointmentInfo(mClinic, mAppointmentDate, mAppointmentProcedure);
         }
     }
 
@@ -214,7 +217,11 @@ public class NewAppointmentClinicFragment extends Fragment implements DatePicker
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String date = year+"/"+(monthOfYear+1)+"/"+dayOfMonth+"/";
+        //store date and procedure
+        String date = year+"/"+(monthOfYear+1)+"/"+dayOfMonth;
+        DateTimeFormatter dateDecoder = DateTimeFormat.forPattern("yyyy/MM/dd");
+        mAppointmentDate = DateTime.parse(date, dateDecoder);
+        mAppointmentProcedure = (Procedure) mProcedureSpinner.getSelectedItem();
         RequestParams params = new RequestParams();
         params.put("clinic_id", mClinic.getId());
         params.put("date", date);
@@ -264,11 +271,7 @@ public class NewAppointmentClinicFragment extends Fragment implements DatePicker
                             }
                             aDb.close();
                         }
-
-                        //launch activity here
-//                        Intent intent = new Intent(getApplicationContext(), HomeNavActivity.class);
-//                        startActivity(intent);
-//                        finish();
+                        initializeScheduling();
                     }
                     else {
                         Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_LONG).show();
@@ -293,7 +296,6 @@ public class NewAppointmentClinicFragment extends Fragment implements DatePicker
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnNewAppointmentClinicFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void processAppointmentInfo(Clinic clinic, DateTime appointmentDate, Procedure appointmentProecedure);
     }
 }

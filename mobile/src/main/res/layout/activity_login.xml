@@ -5,27 +5,30 @@
     android:background="@drawable/gradient_background"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" tools:context=".LoginActivity">
+    android:paddingTop="@dimen/activity_vertical_margin" tools:context=".LoginActivity"
+    android:weightSum="1">
 
     <ImageView
-        android:layout_marginTop="36dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="32dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="117dp"
         android:scaleType="centerInside"
         android:src="@drawable/login_logo"
-        android:contentDescription="@string/desc_logo"/>
+        android:contentDescription="@string/desc_logo"
+        android:id="@+id/imageView"
+        android:layout_weight="0.14" />
 
     <EditText android:id="@+id/userEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:padding="16dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="28dp"
+        android:padding="12dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:background="@color/MDme_loginInputBackground"
         android:text="user@example.com"
         android:textColor="@color/white"
@@ -39,11 +42,11 @@
         android:ems="10"
         android:background="@color/MDme_loginInputBackground"
         android:hint="@string/password"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:text="Qwerty123!"
         android:inputType="textPassword"
-        android:padding="16dp"
+        android:padding="12dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:linksClickable="false"
@@ -54,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="59dp"
         android:padding="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="40dp"
         android:onClick="login"
         android:text="@string/login"
         android:textColor="#ffffffff"
@@ -64,17 +67,19 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="36dp"
+        android:paddingTop="48dp"
         android:paddingBottom="24dp"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="10pt"
-        android:text="Forgot password?"/>
+        android:textSize="8pt"
+        android:text="Forgot password?"
+        android:id="@+id/textView" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="10pt"
+        android:textSize="8pt"
         android:text="New Here? Sign up"/>
 </LinearLayout>

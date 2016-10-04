@@ -232,6 +232,8 @@ public class LoginActivity extends Activity {
                                             procedure.setDescription(jsonProcedure.getString("description"));
                                         if (!jsonProcedure.isNull("duration"))
                                             procedure.setDuration(jsonProcedure.getInt("duration"));
+                                        if (!jsonProcedure.isNull("updated_at"))
+                                            procedure.setUpdatedAt(DateTime.parse(jsonClinic.getString("updated_at")));
                                         procedure.setClinicId(clinic.getId());
                                         if (procedureDb.procedureExists(procedure.getId())) {
                                             procedureDb.updateProcedure(procedure);
@@ -267,6 +269,14 @@ public class LoginActivity extends Activity {
                     Toast.makeText(LoginActivity.this, "Unable to connect", Toast.LENGTH_LONG).show();
                     Log.e(TAG, je.getMessage());
                 }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(LoginActivity.this, "Unable to connect", Toast.LENGTH_LONG).show();
+                Log.d("Failed: ", ""+statusCode);
+                Log.d("Error : ", "" + throwable);
             }
 
             @Override

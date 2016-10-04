@@ -37,6 +37,7 @@ public class ProcedureDatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_NAME = "name";
     private static final String KEY_DESC  = "description";
     private static final String KEY_DURATION  = "duration";
+    private static final String KEY_UPDATED_AT  = "updated_at";
 
     public ProcedureDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -47,7 +48,7 @@ public class ProcedureDatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_PROCEDURES_TABLE = "CREATE TABLE " + TABLE_NAME + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CLINIC_ID + " INTEGER," + KEY_NAME + " TEXT,"
-                + KEY_DESC + " TEXT," + KEY_DURATION + " INTEGER" +
+                + KEY_DESC + " TEXT," + KEY_DURATION + " INTEGER," + KEY_UPDATED_AT + " INTEGER" +
                 ")";
         db.execSQL(CREATE_PROCEDURES_TABLE);
     }
@@ -96,6 +97,7 @@ public class ProcedureDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_NAME, procedure.getName());
         values.put(KEY_DESC, procedure.getDescription());
         values.put(KEY_DURATION, procedure.getDuration());
+        values.put(KEY_UPDATED_AT, procedure.getUpdatedAt().getMillisOfDay());
         // Inserting Row
         db.insert(TABLE_NAME, null, values);
         db.close(); // Closing database connection
@@ -109,6 +111,7 @@ public class ProcedureDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_NAME, procedure.getName());
         values.put(KEY_DESC, procedure.getDescription());
         values.put(KEY_DURATION, procedure.getDuration());
+        values.put(KEY_UPDATED_AT, procedure.getUpdatedAt().getMillisOfDay());
         db.update(TABLE_NAME, values, "_id="+procedure.getId(), null);
     }
 
@@ -122,11 +125,12 @@ public class ProcedureDatabaseHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
         //ignore db id
         Procedure procedure = new Procedure();
-        procedure.setId(Integer.parseInt(cursor.getString(0)));
-        procedure.setClinicId((Integer.parseInt(cursor.getString(1))));
+        procedure.setId(cursor.getInt(0));
+        procedure.setClinicId(cursor.getInt(1));
         procedure.setName(cursor.getString(2));
         procedure.setDescription(cursor.getString(3));
-        procedure.setDuration(Integer.parseInt(cursor.getString(4)));
+        procedure.setDuration(cursor.getInt(4));
+        procedure.setUpdatedAt(new DateTime((cursor.getLong(5))));
 
         // return clinic
         cursor.close();
@@ -147,6 +151,7 @@ public class ProcedureDatabaseHandler extends SQLiteOpenHelper {
             }
             cursor.close();
         }
+        db.close();
         return procedures;
 
 
